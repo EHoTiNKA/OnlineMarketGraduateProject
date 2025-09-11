@@ -1,0 +1,54 @@
+.generalHeaderInfoLinks {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #ecf3f9;
+    border: 1px solid #ecf3f9;
+    border-radius: 6px;
+    line-height: 54px;
+}
+
+.headerInfoLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 14px;
+    margin-right: auto;
+}
+
+.headerMenuLinks {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 40px;
+}
+
+.headerMoreInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 16px;
+}
+
+.headerMoreInfo:hover {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.headerMoreInfoSvg {
+    width: 24px;
+    height: 24px;
+    fill: black;
+    margin-right: 6px;
+}
+
+.headerMoreInfoText {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    color: black;
+}

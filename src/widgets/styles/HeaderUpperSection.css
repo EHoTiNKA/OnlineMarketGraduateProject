@@ -1,0 +1,108 @@
+.headerUpperSectionContent {
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    position: relative;
+
+    font-size: 14px;
+    color: rgb(104, 104, 116);
+    height: 56px;
+}
+
+.choiceCityBtnContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.choiceCityBtnContent p {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+.choiceCityMark {
+    width: 22px;
+    height: 22px;
+    margin-right: 6px;
+    fill: #0069ab;
+    transition: fill 0.25s;
+}
+
+.choiceCityBtnContent:hover {
+    color: #0069ab;
+    cursor: pointer;
+    transition: color 0.25s;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.choiceCityBtnContent:hover .choiceCityMark {
+    fill: #0069ab;
+}
+
+/*------------------------------------------------*/
+
+.hoursOfWorkContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin-left: auto;
+    margin-right: 24px;
+}
+
+.hoursOfWorkContentSvg {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    fill: rgb(104, 104, 116);
+}
+
+.hoursOfWorkContent p {
+    color: rgb(104, 104, 116);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+}
+
+/*------------------------------------------------*/
+
+.supportPhoneNumbContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.supportPhoneNumbContentSvg {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    fill: rgb(104, 104, 116);
+    transition: fill 0.15s;
+}
+
+.supportPhoneNumber {
+    color: rgb(104, 104, 116);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    transition: color 0.15s;
+}
+
+.supportPhoneNumbContent:hover {
+    cursor: pointer;
+}
+
+.supportPhoneNumbContent:hover .supportPhoneNumber {
+    color: #0069ab;
+}
+
+.supportPhoneNumbContent:hover .supportPhoneNumbContentSvg {
+    fill: #0069ab;
+}

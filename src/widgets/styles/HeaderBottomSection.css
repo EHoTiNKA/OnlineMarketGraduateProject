@@ -1,0 +1,156 @@
+.headerBottomSectionContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 16px 0px;
+}
+
+.headerBottomLogoContainer {
+    margin-right: 64px;
+}
+
+.headerNavLogoLink {
+    width: 80px;
+    height: 60px;
+    fill: #0069ab;
+}
+
+.headerBottomCatalogButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background-color: #0069ab;
+    border: 1px solid #0069ab;
+    border-radius: 6px;
+    padding: 12px 24px;
+    margin-right: 16px;
+}
+
+.headerBottomCatalogButton:hover {
+    cursor: pointer;
+    background-color: #008fe9;
+    border: 1px solid #008fe9;
+    transition: .15s;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.headerBottomCatalogImg {
+    height: 20px;
+    width: 20px;
+}
+
+.headerBottomCatalogText {
+    font-size: 14px;
+    font-weight: 500;
+    color: aliceblue;
+    font-family: "Montserrat", sans-serif;
+    padding-left: 10px;
+}
+
+.headerBottomSearchLine {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    height: 46px;
+}
+
+.headerBottomInput {
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: "Montserrat", sans-serif;
+
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+    padding: 8px 40px;
+    outline: 0;
+    background: #ecf3f9;
+    color: #7ca4c5;
+    text-overflow: ellipsis;
+}
+
+.headerBottomSearchLineBtn {
+    border: 0;
+    position: relative;
+    right: 33px;
+    top: 11px;
+    padding: 0;
+
+    fill: #7ca4c5;
+    height: 24px;
+    width: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchLineSvg {
+    width: 24px;
+    height: 24px;
+}
+
+.headerBottomGeneralBtns {
+    display: flex;
+    align-items: center;
+}
+
+.headerBottomFavoriteBtn,
+.headerBottomCheckOutBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 24px;
+    text-decoration: none;
+}
+
+.headerBottomBasketBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+.headerBottomProfileBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 62px;
+    text-decoration: none;
+}
+
+.headerBottomSvgHeart,
+.headerBottomSvgCheckOut,
+.headerBottomSvgBasket,
+.headerBottomSvgProfile {
+    width: 26px;
+    height: 26px;
+    fill: #0069ab;
+}
+
+.headerBottomBtnsText {
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+    font-family: "Montserrat", sans-serif;
+}
+
+.headerBottomBtnsText:hover {
+    color: #008fe9;
+    transition: .25s;
+}
