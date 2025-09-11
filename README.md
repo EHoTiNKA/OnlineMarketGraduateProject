@@ -1,12 +1,38 @@
-# React + Vite
+# OnlineMarketGraduateProject
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Online Laptop Store creating to practice skills
+Created using:
+- React
+- CSS
 
-Currently, two official plugins are available:
+## Preview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*** in progress ***
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To transfer the project to yourself, follow these steps:
+
+1. Create project folder:
+
+2. Clone the repository:
+
+```
+git clone https://github.com/EHoTiNKA/OnlineMarketGraduateProject.git .
+```
+3. Install projcet
+```
+npm install
+```
+4. Run dev mode
+```
+npm run dev
+```
+
+## Contributing
+
+If you want to contribute to the OnlineMarketGraduateProject and help with my graduate project, you can:
+
+- Report bugs and issues by creating a new issue in the repository.
+- Suggest new features and improvements by creating a new issue in the repository.
+
