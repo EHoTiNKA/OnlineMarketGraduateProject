@@ -3,6 +3,7 @@
 Online Laptop Store creating to practice skills
 Created using:
 - React
+- HTML
 - CSS
 
 ## Preview
@@ -13,18 +14,18 @@ Created using:
 
 To transfer the project to yourself, follow these steps:
 
-1. Create project folder:
+1. Create project folder
 
 2. Clone the repository:
 
 ```
 git clone https://github.com/EHoTiNKA/OnlineMarketGraduateProject.git .
 ```
-3. Install projcet
+3. Install project:
 ```
 npm install
 ```
-4. Run dev mode
+4. Run dev mode:
 ```
 npm run dev
 ```
