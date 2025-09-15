@@ -3,8 +3,6 @@ import { useState } from "react";
 
 import HeaderUpperSection from "./HeaderUpperSection";
 import HeaderBottomSection from "./HeaderBottomSection";
-import HeaderInfoLeftItem from "../components/HeaderInfoLeftItem";
-import HeaderInfoMenuItem from "../components/HeaderInfoMenuItem";
 
 const GeneralHeader = () => {
   const [moreInfoModalActive, setMoreInfoModalActive] = useState(false);
@@ -15,66 +13,109 @@ const GeneralHeader = () => {
         <HeaderBottomSection />
         <div className="generalHeaderInfoLinks">
           <div className="headerInfoLeft">
-            <HeaderInfoLeftItem
-              svg={"#svg-headerMenu-promotion"}
-              text={"Акции"}
-              href={"/auctions/"}
-            />
-            <HeaderInfoLeftItem
-              svg={"#svg-headerMenu-saleout"}
-              text={"Распродажа"}
-              href={"/sellout/"}
-            />
+            <a href={"/auctions/"} className="headerInfoLeftItemContent">
+              <svg className="headerInfoLeftItemSvg">
+                <use xlinkHref="#svg-headerMenu-promotion"></use>
+              </svg>
+              <p className="headerInfoLeftText">Акции</p>
+            </a>
+            <a href={"/sellout/"} className="headerInfoLeftItemContent">
+              <svg className="headerInfoLeftItemSvg">
+                <use xlinkHref="#svg-headerMenu-saleout"></use>
+              </svg>
+              <p className="headerInfoLeftText">Распродажа</p>
+            </a>
           </div>
           <div className="headerMenuLinks">
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"О нас"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Контакты"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Оплата"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Гарантия"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Доставка"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Услуги"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Корпоративным клиентам"}
-              href={"/about-us/"}
-            />
-            <HeaderInfoMenuItem
-              svg={"#svg-headerMenu-about"}
-              text={"Лизинг"}
-              href={"/about-us/"}
-            />
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-about"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">О нас</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-contacts"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Контакты</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-payment"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Оплата</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-guarantees"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Гарантия</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-delivery"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Доставка</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-services"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Услуги</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-korpClients"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Корпоративным клиентам</p>
+            </a>
+            <a
+              href="/about-us/"
+              className="headerInfoMenuItemContent headerInfoMenuItemContent-leasing"
+            >
+              <svg className="headerInfoMenuItemSvg">
+                <use xlinkHref="#svg-headerMenu-about"></use>
+              </svg>
+              <p className="headerInfoMenuItemText">Лизинг</p>
+            </a>
           </div>
-          <div className="headerMoreInfoBtn" onClick={() => setMoreInfoModalActive(!moreInfoModalActive)}>
+          <div
+            className="headerMoreInfoBtn"
+            onClick={() => setMoreInfoModalActive(!moreInfoModalActive)}
+          >
             <svg className="headerMoreInfoSvg">
               <use xlinkHref="#svg-headerMenu-more"></use>
             </svg>
             <p className="headerMoreInfoText">Ещё</p>
           </div>
-          <div className={moreInfoModalActive ? "headerMoreInfoModalContent active" : "headerMoreInfoModalContent"}>
+          <div
+            className={
+              moreInfoModalActive
+                ? "headerMoreInfoModalContent active"
+                : "headerMoreInfoModalContent"
+            }
+          >
             <a
               href="/about/"
               rel="nofollow"
@@ -89,7 +130,7 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-contacts"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
@@ -100,7 +141,7 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-payment"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
@@ -111,7 +152,7 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-guarantees"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
@@ -122,7 +163,7 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-delivery"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
@@ -133,7 +174,7 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-services"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
@@ -144,18 +185,20 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-korpClients"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
                 <use xlinkHref="#svg-headerMenu-about"></use>
               </svg>
-              <p className="headerMoreInfoModalLinkText">Корпоративным клиентам</p>
+              <p className="headerMoreInfoModalLinkText">
+                Корпоративным клиентам
+              </p>
             </a>
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-leasing"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
@@ -166,13 +209,15 @@ const GeneralHeader = () => {
             <a
               href="/about/"
               rel="nofollow"
-              className="headerMoreInfoModalLink"
+              className="headerMoreInfoModalLink headerMoreInfoModalLink-consultingCenter"
               aria-label="Перейти на страницу о нас"
             >
               <svg className="headerMoreInfoModalSvg">
                 <use xlinkHref="#svg-headerMenu-about"></use>
               </svg>
-              <p className="headerMoreInfoModalLinkText">Консультационный центр</p>
+              <p className="headerMoreInfoModalLinkText">
+                Консультационный центр
+              </p>
             </a>
           </div>
         </div>
