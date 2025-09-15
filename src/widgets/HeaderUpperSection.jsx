@@ -4,11 +4,11 @@ import { useState } from "react";
 import CityModal from '../components/HeaderCityModal';
 
 const HeaderUpperSection = () => {
-  const [modalActive, setModalActive] = useState(false);
+  const [cityModalActive, setCityModalActive] = useState(false);
   return (
     <>
       <div className="headerUpperSectionContent">
-        <div className="choiceCityBtnContent" onClick={() => setModalActive(true)}>
+        <div className="choiceCityBtnContent" onClick={() => setCityModalActive(true)}>
           <svg className="choiceCityMark">
             <use xlinkHref="#city-mark"></use>
           </svg>
@@ -27,7 +27,7 @@ const HeaderUpperSection = () => {
           <p className="supportPhoneNumber">+7 495 799-96-69</p>
         </div>
       </div>
-      <CityModal isActive={modalActive} setActive={setModalActive}/>
+      <CityModal isActive={cityModalActive} setActive={setCityModalActive}/>
     </>
   );
 };
