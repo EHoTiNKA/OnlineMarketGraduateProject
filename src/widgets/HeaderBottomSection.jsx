@@ -1,8 +1,10 @@
 import "./styles/HeaderBottomSection.css";
+import { useState } from "react";
 
 import catalogSvg from "../assets/CatalogSvg.svg";
 
 const HeaderBottomSection = () => {
+  const [headerLoginModalActive, setHeaderLoginModalActive] = useState(false);
   return (
     <div className="headerBottomSectionContent">
       <div className="headerBottomLogoContainer">
@@ -52,12 +54,65 @@ const HeaderBottomSection = () => {
           </svg>
           <p className="headerBottomBtnsText">Корзина</p>
         </a>
-        <a href="/profile" className="headerBottomProfileBtn">
+        <div
+          className="headerBottomProfileBtn"
+          onClick={() => setHeaderLoginModalActive(true)}
+        >
           <svg className="headerBottomSvgProfile">
             <use xlinkHref="#svg-profile"></use>
           </svg>
           <p className="headerBottomBtnsText">Войти</p>
-        </a>
+        </div>
+        <div
+          className={
+            headerLoginModalActive
+              ? "headerBottomLoginModal active"
+              : "headerBottomLoginModal"
+          }
+          onClick={() => setHeaderLoginModalActive(false)}
+        >
+          <div
+            className="loginModalContent"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              className="loginModalCloseBtn"
+              onClick={() => setHeaderLoginModalActive(false)}
+            ></div>
+            <form action="/return/" method="post">
+              <p className="loginModalFormHeaderText">Вход</p>
+              <div className="loginModalFormInputLogin">
+                <label className="loginModalFormLabel">E-mail</label>
+                <input
+                  type="text"
+                  name="login"
+                  className="loginModalFormInput"
+                />
+              </div>
+              <div className="loginModalFormInputPassword">
+                <label className="loginModalFormLabel">Password</label>
+                <input
+                  type="text"
+                  name="password"
+                  className="loginModalFormInput"
+                />
+                <div className="formInputPasswordRevealBtn"></div>
+              </div>
+              <br />
+              <button type="submit" className="loginModalFormBtn">
+                Войти
+              </button>
+              <div className="loginModalFormFooter">
+                <a href="/registration" className="loginModalFormFooterLink">
+                  Зарегистрироваться
+                </a>
+                <a href="#" className="loginModalFormFooterLink">
+                  Забыли пароль?
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
