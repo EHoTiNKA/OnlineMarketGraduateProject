@@ -258,6 +258,20 @@
     background-image: url(../../assets/EyeSlashed.svg);
 }
 
+.formInputPasswordRevealBtnActive {
+    position: absolute;
+    right: 0;
+    top: 1;
+    bottom: 0;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    background-size: 22px 22px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../assets/Eye.svg);
+}
+
 .loginModalFormBtn {
     font-size: 16px;
     font-family: "Montserrat", sans-serif;

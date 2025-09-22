@@ -5,6 +5,7 @@ import catalogSvg from "../assets/CatalogSvg.svg";
 
 const HeaderBottomSection = () => {
   const [headerLoginModalActive, setHeaderLoginModalActive] = useState(false);
+  const [formInputBtnActive, setFormInputBtnActive] = useState(true);
   return (
     <div className="headerBottomSectionContent">
       <div className="headerBottomLogoContainer">
@@ -92,11 +93,11 @@ const HeaderBottomSection = () => {
               <div className="loginModalFormInputPassword">
                 <label className="loginModalFormLabel">Password</label>
                 <input
-                  type="text"
+                  type={formInputBtnActive ? "password" : "text"}
                   name="password"
                   className="loginModalFormInput"
                 />
-                <div className="formInputPasswordRevealBtn"></div>
+                <div className={formInputBtnActive ? "formInputPasswordRevealBtn" : "formInputPasswordRevealBtnActive"} onClick={() => setFormInputBtnActive(!formInputBtnActive)}></div>
               </div>
               <br />
               <button type="submit" className="loginModalFormBtn">
