@@ -1,0 +1,80 @@
+.generalBodyContent {
+    margin-top: 80px;
+}
+
+.generalBodyHeadText {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.generalBodyHeadTextH1 {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    margin-right: 8px;
+    color: #333;
+}
+
+.generalBodyHeadTextP {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #686b74;
+}
+
+.generalBodySortBy {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #686b74;
+
+    margin-bottom: 15px;
+}
+
+.generalBodySortByP1 {
+    margin-right: 10px;
+}
+
+.generalBodySortByCategories {
+    margin-left: 15px;
+    font-weight: 400;
+    color: #0069ab;
+    text-decoration: underline;
+}
+
+.generalBodySortByCategories:hover {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* ------------------------------------ */
+
+.generalBodyFiltersAndProducts{
+    display: flex;
+    flex-direction: row;
+}
+
+.generalBodyFilters{
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    padding: 16px;
+
+    background: #fff;
+    border: 1px solid #e1e4e5;
+}
+
+.generalBodyProducts{
+    display: flex;
+    flex-direction: row;
+}
