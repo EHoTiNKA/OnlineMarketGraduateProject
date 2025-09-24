@@ -16,19 +16,31 @@ const GeneralBody = () => {
       </div>
       <div className="generalBodyFiltersAndProducts">
         <div className="generalBodyFilters">
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
+          <form action method="get" className="generalBodyCatalogFilterForm">
+            <input
+              type="text"
+              placeholder="Поиск по фильтрам"
+              className="catalogFilterSearch"
+            />
+            <div className="generalBodyCatalogFilter">
+              <div className="catalogFilterTitle">
+                <p className="catalogFilterTitleText">Каталог</p>
+                <div className="catalogFilterTitleExpandBtn">
+                  <svg>
+                    <use xlinkHref="#svg-filtersCatalog-expandBtn"></use>
+                  </svg>
+                </div>
+              </div>
+              <div className="catalogFilterContent"></div>
+            </div>
+          </form>
         </div>
         <div className="generalBodyProducts">
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
         </div>
       </div>
     </div>

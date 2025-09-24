@@ -59,12 +59,12 @@
 
 /* ------------------------------------ */
 
-.generalBodyFiltersAndProducts{
+.generalBodyFiltersAndProducts {
     display: flex;
     flex-direction: row;
 }
 
-.generalBodyFilters{
+.generalBodyFilters {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
@@ -74,7 +74,63 @@
     border: 1px solid #e1e4e5;
 }
 
-.generalBodyProducts{
+.catalogFilterSearch {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+    padding: 8px 12px;
+    border: 1px solid #d8dbdd;
+    border-radius: 6px;
+    width: 100%;
+    transition: .25s;
+}
+
+.catalogFilterSearch:focus {
+    border-color: #0069ab;
+}
+
+.generalBodyCatalogFilter {
+    margin-top: 24px;
+}
+
+.catalogFilterTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.catalogFilterTitle:hover {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.catalogFilterTitleText {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+    color: black;
+    flex-grow: 1;
+}
+
+.catalogFilterTitleExpandBtn {
+    width: 12px;
+    height: 12px;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    fill: #b3b2b2;
+    transition: 0.5s;
+}
+
+
+
+.generalBodyProducts {
     display: flex;
     flex-direction: row;
 }
