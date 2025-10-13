@@ -1,5 +1,7 @@
 import "./styles/GeneralBody.css";
 
+import CatalogLaptopItem from "../components/CatalogLaptopItem.jsx"
+
 const GeneralBody = () => {
   return (
     <div className="generalBodyContent">
@@ -36,11 +38,16 @@ const GeneralBody = () => {
           </form>
         </div>
         <div className="generalBodyProducts">
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
+          <CatalogLaptopItem />
         </div>
       </div>
     </div>

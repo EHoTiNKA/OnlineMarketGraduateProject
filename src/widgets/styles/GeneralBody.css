@@ -69,6 +69,7 @@
     flex-direction: column;
     margin-right: 10px;
     padding: 16px;
+    width: 20%;
 
     background: #fff;
     border: 1px solid #e1e4e5;
@@ -129,8 +130,12 @@
 }
 
 
-
 .generalBodyProducts {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    margin-left: 32px;
+    max-width: calc(100% - 32px);
+    width: 100%;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto auto;
+    row-gap: 20px;
 }

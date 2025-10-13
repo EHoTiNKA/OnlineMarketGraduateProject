@@ -1,0 +1,178 @@
+.catalogItemContent{
+    width: 95%;
+}
+
+.catalogItemImageWrapper{
+    border: 1px solid #e9eced;
+    padding: 16px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.catalogItemImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.catalogItemImageSladerWrapper {
+    overflow: hidden;
+}
+
+.catalogItemImageSliderImagesBlock {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.catalogItemImageSliderImageWrapper {
+    display: flex;
+    justify-content: center;
+
+    transform: translate3d(0%, 0px, 0px);
+}
+
+.catalogItemImageSliderImageItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 180px;
+}
+
+.catalogItemProductImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    position: absolute;
+    border: none;
+}
+
+.catalogItemImageSliderHoverZones {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+}
+
+.catalogItemImageSliderHover {
+    flex-grow: 1;
+}
+
+.catalogItemImageSliderDot {
+    width: 4px;
+    height: 4px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #b2d0e8;
+}
+
+.catalogItemImageSliderDots {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.catalogItemImageSliderDotActive {
+    background: #0069ab;
+}
+
+.catalogItemDescriptionInfo {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+}
+
+.catalogItemProductCode {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #626262;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.catalogItemLaptopName {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.catalogItemLaptopDescription {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #686b74;
+    margin-bottom: 40px;
+}
+
+.catalogItemLaptopAvailibleDate2,
+.catalogItemLaptopAvailibleDate1 {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+    color: #4e4e4e;
+    margin-bottom: 5px;
+}
+
+.catalogItemLaptopBuyoutPrice {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.LaptopBuyoutPriceText {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+    color: #333;
+    white-space: nowrap;
+}
+
+.catalogItemLaptopBtns {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.catalogItemLaptopAddBasketBtn {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+    border-radius: 4px;
+    outline: 0;
+    background-color: #0069ab;
+    color: #fff;
+    width: 100%;
+    border: 1px solid #0069ab;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.catalogItemLaptopFastBuyBtn {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+    border-radius: 4px;
+    outline: 0;
+    color: #0069ab;
+    width: 100%;
+    border: 1px solid #0069ab;
+    padding: 8px;
+}
