@@ -169,11 +169,13 @@
     opacity: 0;
     pointer-events: none;
     transition: .40s;
+    z-index: 1;
 }
 
 .headerBottomLoginModal.active {
     opacity: 1;
     pointer-events: all;
+    z-index: 1;
 }
 
 .loginModalContent {

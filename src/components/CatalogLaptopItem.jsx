@@ -1,4 +1,5 @@
 import "./styles/CatalogLaptopItem.css";
+import { useState } from 'react';
 
 import test1 from '../assets/test1.webp'
 import test2 from '../assets/test2.webp'
@@ -7,65 +8,53 @@ import test4 from '../assets/test4.webp'
 import test5 from '../assets/test5.webp'
 
 const CatalogLaptopItem = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const images = [test1, test2, test3, test4, test5];
+
+  const handleHover = (index) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <div className="catalogItemContent">
       <div className="catalogItemImageWrapper">
         <a href="adad" className="catalogItemImage">
           <div className="catalogItemImageSladerWrapper">
             <div className="catalogItemImageSliderImagesBlock">
-              <div className="catalogItemImageSliderImageWrapper">
-                <div className="catalogItemImageSliderImageItem catalogImageWrapper">
-                  <img
-                    src={test1}
-                    alt="{laptopName}"
-                    className="catalogItemProductImage"
-                  />
-                </div>
-                <div className="catalogItemImageSliderImageItem catalogImageWrapper">
-                  <img
-                    src={test2}
-                    alt="{laptopName}"
-                    className="catalogItemProductImage"
-                  />
-                </div>
-                <div className="catalogItemImageSliderImageItem catalogImageWrapper">
-                  <img
-                    src={test3}
-                    alt="{laptopName}"
-                    className="catalogItemProductImage"
-                  />
-                </div>
-                <div className="catalogItemImageSliderImageItem catalogImageWrapper">
-                  <img
-                    src={test4}
-                    alt="{laptopName}"
-                    className="catalogItemProductImage"
-                  />
-                </div>
-                <div className="catalogItemImageSliderImageItem catalogImageWrapper">
-                  <img
-                    src={test5}
-                    alt="{laptopName}"
-                    className="catalogItemProductImage"
-                  />
-                </div>
+              <div 
+                className="catalogItemImageSliderImageWrapper"
+                style={{ transform: `translate3d(-${currentSlide * 100}%, 0px, 0px)` }}
+              >
+                {images.map((image, index) => (
+                  <div key={index} className="catalogItemImageSliderImageItem catalogImageWrapper">
+                    <img
+                      src={image}
+                      alt={`Ноутбук ${index + 1}`}
+                      className="catalogItemProductImage"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
             <div className="catalogItemImageSliderHoverZones">
-              <div className="catalogItemImageSliderHover"></div>
-              <div className="catalogItemImageSliderHover"></div>
-              <div className="catalogItemImageSliderHover"></div>
-              <div className="catalogItemImageSliderHover"></div>
-              <div className="catalogItemImageSliderHover"></div>
+              {images.map((_, index) => (
+                <div 
+                  key={index}
+                  className="catalogItemImageSliderHover"
+                  onMouseEnter={() => handleHover(index)}
+                  onMouseLeave={() => handleHover(0)}
+                />
+              ))}
             </div>
           </div>
         </a>
         <div className="catalogItemImageSliderDots">
-          <div className="catalogItemImageSliderDot catalogItemImageSliderDotActive"></div>
-          <div className="catalogItemImageSliderDot"></div>
-          <div className="catalogItemImageSliderDot"></div>
-          <div className="catalogItemImageSliderDot"></div>
-          <div className="catalogItemImageSliderDot"></div>
+          {images.map((_, index) => (
+            <div 
+              key={index}
+              className={`catalogItemImageSliderDot ${index === currentSlide ? 'catalogItemImageSliderDotActive' : ''}`}
+            />
+          ))}
         </div>
       </div>
       <div className="catalogItemDescriptionInfo">
