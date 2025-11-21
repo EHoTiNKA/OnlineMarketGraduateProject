@@ -121,6 +121,14 @@
     font-weight: 500;
     font-family: "Montserrat", sans-serif;
     color: #686b74;
+    margin-bottom: 10px;
+}
+
+.catalogItemLaptopSpecs {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    color: #686b74;
     margin-bottom: 40px;
 }
 

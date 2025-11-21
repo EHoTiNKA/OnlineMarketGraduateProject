@@ -1,13 +1,33 @@
 import "./styles/GeneralBody.css";
-
-import CatalogLaptopItem from "../components/CatalogLaptopItem.jsx"
+import CatalogLaptopItem from "../components/CatalogLaptopItem.jsx";
+import { useState, useEffect } from "react";
 
 const GeneralBody = () => {
+  const [laptops, setLaptops] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+  useEffect(() => {
+    const fetchLaptops = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/laptops");
+        if (response.ok) {
+          const data = await response.json();
+          setLaptops(data);
+          setTotalCount(data.length);
+        }
+      } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+      }
+    };
+
+    fetchLaptops();
+  }, []);
+
   return (
     <div className="generalBodyContent">
       <div className="generalBodyHeadText">
         <h1 className="generalBodyHeadTextH1">Ноутбуки</h1>
-        <p className="generalBodyHeadTextP">1976 товаров</p>
+        <p className="generalBodyHeadTextP">{totalCount} товаров</p>
       </div>
       <div className="generalBodySortBy">
         <p className="generalBodySortByP1">Сортировать по:</p>
@@ -38,16 +58,9 @@ const GeneralBody = () => {
           </form>
         </div>
         <div className="generalBodyProducts">
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
-          <CatalogLaptopItem />
+          {laptops.map((laptop) => (
+            <CatalogLaptopItem key={laptop.id} laptop={laptop} />
+          ))}
         </div>
       </div>
     </div>

@@ -129,13 +129,10 @@
     transition: 0.5s;
 }
 
-
 .generalBodyProducts {
     display: grid;
     margin-left: 32px;
-    max-width: calc(100% - 32px);
     width: 100%;
-    grid-template-columns: auto auto auto auto;
-    grid-template-rows: auto auto auto auto;
-    row-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }

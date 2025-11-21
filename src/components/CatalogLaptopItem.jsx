@@ -1,35 +1,57 @@
 import "./styles/CatalogLaptopItem.css";
-import { useState } from 'react';
+import { useState } from "react";
 
-import test1 from '../assets/test1.webp'
-import test2 from '../assets/test2.webp'
-import test3 from '../assets/test3.webp'
-import test4 from '../assets/test4.webp'
-import test5 from '../assets/test5.webp'
-
-const CatalogLaptopItem = () => {
+const CatalogLaptopItem = ({ laptop }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const images = [test1, test2, test3, test4, test5];
+  const images =
+    laptop.images?.map(
+      (img) => `http://localhost:5000/uploads/${img.image_url}`
+    ) || [];
 
   const handleHover = (index) => {
     setCurrentSlide(index);
   };
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("ru-RU").format(price);
+  };
+
+  const truncateDescription = (description, maxLength = 100) => {
+    if (!description) return "Описание отсутствует";
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength) + "...";
+  };
+
+  const getShortSpecs = () => {
+    if (!laptop.specs) return "Характеристики не указаны";
+    const specs = laptop.specs;
+    return `${specs.processor?.model_series || "Процессор"}/${
+      specs.ram?.size || "?"
+    }GB/${specs.storage?.capacity || "?"}GB SSD/${
+      specs.screen?.diagonal || "?"
+    }" ${specs.screen?.resolution || ""}`.trim();
+  };
+
   return (
     <div className="catalogItemContent">
       <div className="catalogItemImageWrapper">
-        <a href="adad" className="catalogItemImage">
+        <a href={`/laptop/${laptop.id}`} className="catalogItemImage">
           <div className="catalogItemImageSladerWrapper">
             <div className="catalogItemImageSliderImagesBlock">
-              <div 
+              <div
                 className="catalogItemImageSliderImageWrapper"
-                style={{ transform: `translate3d(-${currentSlide * 100}%, 0px, 0px)` }}
+                style={{
+                  transform: `translate3d(-${currentSlide * 100}%, 0px, 0px)`,
+                }}
               >
                 {images.map((image, index) => (
-                  <div key={index} className="catalogItemImageSliderImageItem catalogImageWrapper">
+                  <div
+                    key={index}
+                    className="catalogItemImageSliderImageItem catalogImageWrapper"
+                  >
                     <img
                       src={image}
-                      alt={`Ноутбук ${index + 1}`}
+                      alt={`${laptop.model_name} - фото ${index + 1}`}
                       className="catalogItemProductImage"
                     />
                   </div>
@@ -38,11 +60,11 @@ const CatalogLaptopItem = () => {
             </div>
             <div className="catalogItemImageSliderHoverZones">
               {images.map((_, index) => (
-                <div 
+                <div
                   key={index}
                   className="catalogItemImageSliderHover"
                   onMouseEnter={() => handleHover(index)}
-                  onMouseLeave={() => handleHover(0)}
+                  onMouseLeave={() => setCurrentSlide(0)}
                 />
               ))}
             </div>
@@ -50,26 +72,32 @@ const CatalogLaptopItem = () => {
         </a>
         <div className="catalogItemImageSliderDots">
           {images.map((_, index) => (
-            <div 
+            <div
               key={index}
-              className={`catalogItemImageSliderDot ${index === currentSlide ? 'catalogItemImageSliderDotActive' : ''}`}
+              className={`catalogItemImageSliderDot ${
+                index === currentSlide ? "catalogItemImageSliderDotActive" : ""
+              }`}
             />
           ))}
         </div>
       </div>
       <div className="catalogItemDescriptionInfo">
-        <p className="catalogItemProductCode">Код товара: 11079526</p>
-        <a href="laptop" className="catalogItemLaptopName">
-          Ноутбук Digma Digma EVE P4851
+        <p className="catalogItemProductCode">Код товара: {laptop.id}</p>
+        <a href={`/laptop/${laptop.id}`} className="catalogItemLaptopName">
+          Ноутбук {laptop.manufacturer?.name} {laptop.model_name}
         </a>
         <p className="catalogItemLaptopDescription">
-          N200/­8GB/­256GB SSD/­UHD Graphics/­14" IPS
-          FHD/­WiFi/­BT/­cam/­Win11Pro/­silver
+          {truncateDescription(laptop.description)}
         </p>
-        <p className="catalogItemLaptopAvailibleDate1">Самовывоз: Сегодня</p>
-        <p className="catalogItemLaptopAvailibleDate2">Доставка: Завтра</p>
+        <p className="catalogItemLaptopSpecs">{getShortSpecs()}</p>
+        <p className="catalogItemLaptopAvailibleDate1">
+          Самовывоз: {laptop.stock_quantity > 0 ? "Сегодня" : "Под заказ"}
+        </p>
+        <p className="catalogItemLaptopAvailibleDate2">
+          Доставка: {laptop.stock_quantity > 0 ? "Завтра" : "2-3 дня"}
+        </p>
         <div className="catalogItemLaptopBuyoutPrice">
-          <p className="LaptopBuyoutPriceText">24900</p>
+          <p className="LaptopBuyoutPriceText">{formatPrice(laptop.price)}</p>
           <p className="LaptopBuyoutPriceCurrency">руб.</p>
         </div>
         <div className="catalogItemLaptopBtns">
