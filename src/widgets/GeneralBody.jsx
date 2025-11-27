@@ -1,6 +1,6 @@
 import "./styles/GeneralBody.css";
 import CatalogLaptopItem from "../components/CatalogLaptopItem.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const GeneralBody = () => {
   const [laptops, setLaptops] = useState([]);
@@ -23,6 +23,61 @@ const GeneralBody = () => {
     fetchLaptops();
   }, []);
 
+  const [sortConfig, setSortConfig] = useState({
+    field: null,
+    direction: null,
+  });
+
+  const handleSort = (field) => {
+    if (sortConfig.field === field) {
+      if (sortConfig.direction === null) {
+        setSortConfig({ field, direction: "asc" });
+      } else if (sortConfig.direction === "asc") {
+        setSortConfig({ field, direction: "desc" });
+      } else {
+        setSortConfig({ field: null, direction: null });
+      }
+    } else {
+      setSortConfig({ field, direction: "asc" });
+    }
+  };
+  const sortedLaptops = useMemo(() => {
+    if (sortConfig.field === null || sortConfig.direction === null) {
+      return laptops;
+    }
+
+    const sorted = [...laptops].sort((a, b) => {
+      if (sortConfig.field === "price") {
+        if (sortConfig.direction === "asc") {
+          return a.price - b.price;
+        } else {
+          return b.price - a.price;
+        }
+      }
+      if (sortConfig.field === "name") {
+        if (sortConfig.direction === "asc") {
+          return a.model_name.localeCompare(b.model_name);
+        } else {
+          return b.model_name.localeCompare(a.model_name);
+        }
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [laptops, sortConfig]);
+  const getSortIndicator = (field) => {
+    if (sortConfig.field === field) {
+      if (sortConfig.direction === "asc") return " ↑";
+      if (sortConfig.direction === "desc") return " ↓";
+    }
+    return "";
+  };
+  const isFieldActive = (field) => {
+    return sortConfig.field === field && sortConfig.direction !== null;
+  };
+
   return (
     <div className="generalBodyContent">
       <div className="generalBodyHeadText">
@@ -31,10 +86,22 @@ const GeneralBody = () => {
       </div>
       <div className="generalBodySortBy">
         <p className="generalBodySortByP1">Сортировать по:</p>
-        <p className="generalBodySortByCategories">популярности</p>
-        <p className="generalBodySortByCategories">цене</p>
-        <p className="generalBodySortByCategories">имени</p>
-        <p className="generalBodySortByCategories">доступности</p>
+        <p
+          className={`generalBodySortByCategories ${
+            isFieldActive("price") ? "active" : ""
+          }`}
+          onClick={() => handleSort("price")}
+        >
+          цене{getSortIndicator("price")}
+        </p>
+        <p
+          className={`generalBodySortByCategories ${
+            isFieldActive("name") ? "active" : ""
+          }`}
+          onClick={() => handleSort("name")}
+        >
+          имени{getSortIndicator("name")}
+        </p>
       </div>
       <div className="generalBodyFiltersAndProducts">
         <div className="generalBodyFilters">
@@ -58,7 +125,7 @@ const GeneralBody = () => {
           </form>
         </div>
         <div className="generalBodyProducts">
-          {laptops.map((laptop) => (
+          {sortedLaptops.map((laptop) => (
             <CatalogLaptopItem key={laptop.id} laptop={laptop} />
           ))}
         </div>
