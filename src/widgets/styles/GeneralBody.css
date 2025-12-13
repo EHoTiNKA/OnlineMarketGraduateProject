@@ -176,3 +176,78 @@
 .priceFilterLabel:hover {
   color: #0069ab;
 }
+
+.catalogFilterTitleExpandBtn.expanded {
+  transform: rotate(180deg);
+}
+
+.catalogFilterContent {
+  margin-top: 12px;
+}
+
+.priceFilterOptions,
+.manufacturerFilterOptions,
+.processorFilterOptions,
+.graphicsFilterOptions,
+.ramFilterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.priceFilterOption,
+.manufacturerFilterOption,
+.processorFilterOption,
+.graphicsFilterOption,
+.ramFilterOption {
+  display: flex;
+  align-items: center;
+}
+
+.priceFilterCheckbox,
+.manufacturerFilterCheckbox,
+.processorFilterCheckbox,
+.graphicsFilterCheckbox,
+.ramFilterCheckbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.priceFilterLabel,
+.manufacturerFilterLabel,
+.processorFilterLabel,
+.graphicsFilterLabel,
+.ramFilterLabel {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.priceFilterLabel:hover,
+.manufacturerFilterLabel:hover,
+.processorFilterLabel:hover,
+.graphicsFilterLabel:hover,
+.ramFilterLabel:hover {
+  color: #0069ab;
+}
+
+.generalBodyCatalogFilter {
+  margin-top: 24px;
+  border-bottom: 1px solid #e1e4e5;
+  padding-bottom: 16px;
+}
+
+.generalBodyCatalogFilter:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
