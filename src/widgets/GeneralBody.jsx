@@ -6,6 +6,18 @@ const GeneralBody = () => {
   const [laptops, setLaptops] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
+  const [priceFilterExpanded, setPriceFilterExpanded] = useState(true);
+
+  const priceRanges = [
+    { id: 1, label: "Менее 20 000 ₽", min: 0, max: 20000 },
+    { id: 2, label: "20 001 - 30 000 ₽", min: 20001, max: 30000 },
+    { id: 3, label: "30 001 - 45 000 ₽", min: 30001, max: 45000 },
+    { id: 4, label: "45 001 - 70 000 ₽", min: 45001, max: 70000 },
+    { id: 5, label: "70 001 - 100 000 ₽", min: 70001, max: 100000 },
+    { id: 6, label: "100 001 ₽ и более", min: 100001, max: Infinity },
+  ];
+
   useEffect(() => {
     const fetchLaptops = async () => {
       try {
@@ -22,6 +34,34 @@ const GeneralBody = () => {
 
     fetchLaptops();
   }, []);
+
+  const handlePriceRangeChange = (rangeId) => {
+    setSelectedPriceRanges((prev) => {
+      if (prev.includes(rangeId)) {
+        return prev.filter((id) => id !== rangeId);
+      } else {
+        return [...prev, rangeId];
+      }
+    });
+  };
+
+  const filteredLaptops = useMemo(() => {
+    if (selectedPriceRanges.length === 0) {
+      return laptops;
+    }
+
+    return laptops.filter((laptop) => {
+      return selectedPriceRanges.some((rangeId) => {
+        const range = priceRanges.find((r) => r.id === rangeId);
+        const price = laptop.price || 0;
+
+        if (range.max === Infinity) {
+          return price >= range.min;
+        }
+        return price >= range.min && price <= range.max;
+      });
+    });
+  }, [laptops, selectedPriceRanges]);
 
   const [sortConfig, setSortConfig] = useState({
     field: null,
@@ -43,10 +83,10 @@ const GeneralBody = () => {
   };
   const sortedLaptops = useMemo(() => {
     if (sortConfig.field === null || sortConfig.direction === null) {
-      return laptops;
+      return filteredLaptops;
     }
 
-    const sorted = [...laptops].sort((a, b) => {
+    const sorted = [...filteredLaptops].sort((a, b) => {
       if (sortConfig.field === "price") {
         if (sortConfig.direction === "asc") {
           return a.price - b.price;
@@ -66,7 +106,7 @@ const GeneralBody = () => {
     });
 
     return sorted;
-  }, [laptops, sortConfig]);
+  }, [filteredLaptops, sortConfig]);
   const getSortIndicator = (field) => {
     if (sortConfig.field === field) {
       if (sortConfig.direction === "asc") return " ↑";
@@ -82,7 +122,7 @@ const GeneralBody = () => {
     <div className="generalBodyContent">
       <div className="generalBodyHeadText">
         <h1 className="generalBodyHeadTextH1">Ноутбуки</h1>
-        <p className="generalBodyHeadTextP">{totalCount} товаров</p>
+        <p className="generalBodyHeadTextP">{sortedLaptops.length} товаров</p>
       </div>
       <div className="generalBodySortBy">
         <p className="generalBodySortByP1">Сортировать по:</p>
@@ -112,15 +152,44 @@ const GeneralBody = () => {
               className="catalogFilterSearch"
             />
             <div className="generalBodyCatalogFilter">
-              <div className="catalogFilterTitle">
-                <p className="catalogFilterTitleText">Каталог</p>
-                <div className="catalogFilterTitleExpandBtn">
+              <div
+                className="catalogFilterTitle"
+                onClick={() => setPriceFilterExpanded(!priceFilterExpanded)}
+              >
+                <p className="catalogFilterTitleText">Цена</p>
+                <div
+                  className={`catalogFilterTitleExpandBtn ${
+                    priceFilterExpanded ? "expanded" : ""
+                  }`}
+                >
                   <svg>
                     <use xlinkHref="#svg-filtersCatalog-expandBtn"></use>
                   </svg>
                 </div>
               </div>
-              <div className="catalogFilterContent"></div>
+              {priceFilterExpanded && (
+                <div className="catalogFilterContent">
+                  <div className="priceFilterOptions">
+                    {priceRanges.map((range) => (
+                      <div key={range.id} className="priceFilterOption">
+                        <input
+                          type="checkbox"
+                          id={`price-range-${range.id}`}
+                          checked={selectedPriceRanges.includes(range.id)}
+                          onChange={() => handlePriceRangeChange(range.id)}
+                          className="priceFilterCheckbox"
+                        />
+                        <label
+                          htmlFor={`price-range-${range.id}`}
+                          className="priceFilterLabel"
+                        >
+                          {range.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </form>
         </div>
