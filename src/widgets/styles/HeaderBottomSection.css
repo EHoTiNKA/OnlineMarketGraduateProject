@@ -314,3 +314,64 @@
 .loginModalFormFooterLink:hover {
     color: #13a5ff;
 }
+
+.headerBottomProfileBtn.logged-in {
+    position: relative;
+    cursor: default;
+}
+
+.headerBottomProfileBtn.logged-in:hover .user-dropdown {
+    display: block;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e1e4e5;
+    border-radius: 6px;
+    padding: 16px;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+.user-dropdown .user-name {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.user-dropdown .user-email {
+    font-size: 12px;
+    font-family: "Montserrat", sans-serif;
+    color: #686b74;
+    margin-bottom: 12px;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 8px 16px;
+    background: #0069ab;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background: #005693;
+}
+
+.headerBottomProfileBtn.logged-in .headerBottomSvgProfile {
+    fill: #0069ab;
+}
