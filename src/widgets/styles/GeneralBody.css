@@ -132,6 +132,7 @@
 .generalBodyProducts {
     display: grid;
     margin-left: 32px;
+    margin-bottom: 80px;
     width: 100%;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;

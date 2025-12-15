@@ -375,3 +375,125 @@
 .headerBottomProfileBtn.logged-in .headerBottomSvgProfile {
     fill: #0069ab;
 }
+
+.registerModalFormHeaderText {
+    font-size: 24px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.registerModalFormInputRegister {
+    margin-bottom: 16px;
+}
+
+.registerModalFormInputPassword {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.registerModalFormLabel {
+    font-size: 12px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    color: #858997;
+}
+
+.registerModalFormInput {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    margin-top: 8px;
+    width: 100%;
+    padding: 12px;
+    color: #333;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d8dbdd;
+    border-radius: 5px;
+}
+
+.registerModalFormInput:focus {
+    border-color: #0069ab;
+}
+
+.registerModalFormBtn {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    width: 100%;
+    color: #fff;
+    border: 1px solid #0069ab;
+    background-color: #0069ab;
+    border-radius: 6px;
+    padding: 13px 24px;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: .25s;
+    margin-top: 8px;
+}
+
+.registerModalFormBtn:hover {
+    border-color: #009dff;
+    background-color: #009dff;
+}
+
+.registerModalFormFooter {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.registerModalFormFooterLink {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    color: #0069ab;
+    transition: .25s;
+}
+
+.registerModalFormFooterLink:hover {
+    color: #13a5ff;
+}
+
+.headerBottomLoginModal.active .loginModalContent {
+    height: auto;
+    min-height: 450px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.registerModalFormInputPassword .formInputPasswordRevealBtn,
+.registerModalFormInputPassword .formInputPasswordRevealBtnActive {
+    position: absolute;
+    right: 0;
+    top: 28px;
+    bottom: 0;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    background-size: 22px 22px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.registerModalFormInputPassword .formInputPasswordRevealBtn {
+    background-image: url(../../assets/EyeSlashed.svg);
+}
+
+.registerModalFormInputPassword .formInputPasswordRevealBtnActive {
+    background-image: url(../../assets/Eye.svg);
+}
+
+
+.registerModalFormHeaderText {
+    margin-bottom: 24px;
+}

@@ -4,11 +4,24 @@ import { useState, useEffect } from "react";
 import catalogSvg from "../assets/CatalogSvg.svg";
 
 const HeaderBottomSection = () => {
-  const [headerLoginModalActive, setHeaderLoginModalActive] = useState(false);
+  const [headerAuthModalActive, setHeaderAuthModalActive] = useState(false);
+  const [authModalType, setAuthModalType] = useState("login"); // 'login' или 'register'
   const [formInputBtnActive, setFormInputBtnActive] = useState(true);
-  const [formData, setFormData] = useState({
+  const [registerFormInputBtnActive, setRegisterFormInputBtnActive] =
+    useState(true);
+  const [confirmPasswordBtnActive, setConfirmPasswordBtnActive] =
+    useState(true);
+
+  const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
+  });
+
+  const [registerFormData, setRegisterFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const [user, setUser] = useState(null);
@@ -49,18 +62,8 @@ const HeaderBottomSection = () => {
     checkAuth();
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.email || !formData.password) {
-      alert("Заполните все поля");
-      return;
-    }
-
-    if (!formData.email.includes("@")) {
-      alert("Введите корректный email");
-      return;
-    }
 
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -69,8 +72,8 @@ const HeaderBottomSection = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
+          email: loginFormData.email,
+          password: loginFormData.password,
         }),
       });
 
@@ -81,9 +84,8 @@ const HeaderBottomSection = () => {
         localStorage.setItem("user", JSON.stringify(data.user));
 
         setUser(data.user);
-
-        setHeaderLoginModalActive(false);
-        setFormData({ email: "", password: "" });
+        setHeaderAuthModalActive(false);
+        setLoginFormData({ email: "", password: "" });
       } else {
         alert(data.message || "Неверный email или пароль");
       }
@@ -93,10 +95,58 @@ const HeaderBottomSection = () => {
     }
   };
 
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: registerFormData.name,
+          email: registerFormData.email,
+          password: registerFormData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        setUser(data.user);
+        setHeaderAuthModalActive(false);
+        setRegisterFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        setAuthModalType("login");
+      } else {
+        alert(data.message || "Ошибка при регистрации");
+      }
+    } catch (err) {
+      alert("Ошибка подключения к серверу");
+      console.error("Register error:", err);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+  };
+
+  const openRegisterModal = () => {
+    setAuthModalType("register");
+  };
+
+  const openLoginModal = () => {
+    setAuthModalType("login");
   };
 
   return (
@@ -173,7 +223,10 @@ const HeaderBottomSection = () => {
         ) : (
           <div
             className="headerBottomProfileBtn"
-            onClick={() => setHeaderLoginModalActive(true)}
+            onClick={() => {
+              setHeaderAuthModalActive(true);
+              setAuthModalType("login");
+            }}
           >
             <svg className="headerBottomSvgProfile">
               <use xlinkHref="#svg-profile"></use>
@@ -181,13 +234,17 @@ const HeaderBottomSection = () => {
             <p className="headerBottomBtnsText">Войти</p>
           </div>
         )}
+
         <div
           className={
-            headerLoginModalActive
+            headerAuthModalActive
               ? "headerBottomLoginModal active"
               : "headerBottomLoginModal"
           }
-          onClick={() => setHeaderLoginModalActive(false)}
+          onClick={() => {
+            setHeaderAuthModalActive(false);
+            setAuthModalType("login");
+          }}
         >
           <div
             className="loginModalContent"
@@ -195,69 +252,190 @@ const HeaderBottomSection = () => {
           >
             <div
               className="loginModalCloseBtn"
-              onClick={() => setHeaderLoginModalActive(false)}
+              onClick={() => {
+                setHeaderAuthModalActive(false);
+                setAuthModalType("login");
+              }}
             ></div>
-            <form onSubmit={handleSubmit}>
-              <p className="loginModalFormHeaderText">Вход</p>
-              <div className="loginModalFormInputLogin">
-                <label className="loginModalFormLabel">E-mail</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="loginModalFormInput"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-              </div>
-              <div className="loginModalFormInputPassword">
-                <label className="loginModalFormLabel">Password</label>
-                <input
-                  type={formInputBtnActive ? "password" : "text"}
-                  name="password"
-                  className="loginModalFormInput"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                />
-                <div
-                  className={
-                    formInputBtnActive
-                      ? "formInputPasswordRevealBtn"
-                      : "formInputPasswordRevealBtnActive"
-                  }
-                  onClick={() => setFormInputBtnActive(!formInputBtnActive)}
-                ></div>
-              </div>
-              <br />
-              <button type="submit" className="loginModalFormBtn">
-                Войти
-              </button>
-              <div className="loginModalFormFooter">
-                <a
-                  href="/registration"
-                  className="loginModalFormFooterLink"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert("Форма регистрации");
-                  }}
-                >
+
+            {authModalType === "login" && (
+              <form onSubmit={handleLoginSubmit}>
+                <p className="loginModalFormHeaderText">Вход</p>
+                <div className="loginModalFormInputLogin">
+                  <label className="loginModalFormLabel">E-mail</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="loginModalFormInput"
+                    value={loginFormData.email}
+                    onChange={(e) =>
+                      setLoginFormData({
+                        ...loginFormData,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="loginModalFormInputPassword">
+                  <label className="loginModalFormLabel">Password</label>
+                  <input
+                    type={formInputBtnActive ? "password" : "text"}
+                    name="password"
+                    className="loginModalFormInput"
+                    value={loginFormData.password}
+                    onChange={(e) =>
+                      setLoginFormData({
+                        ...loginFormData,
+                        password: e.target.value,
+                      })
+                    }
+                  />
+                  <div
+                    className={
+                      formInputBtnActive
+                        ? "formInputPasswordRevealBtn"
+                        : "formInputPasswordRevealBtnActive"
+                    }
+                    onClick={() => setFormInputBtnActive(!formInputBtnActive)}
+                  ></div>
+                </div>
+                <br />
+                <button type="submit" className="loginModalFormBtn">
+                  Войти
+                </button>
+                <div className="loginModalFormFooter">
+                  <a
+                    href="#"
+                    className="loginModalFormFooterLink"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openRegisterModal();
+                    }}
+                  >
+                    Зарегистрироваться
+                  </a>
+                  <a
+                    href="#"
+                    className="loginModalFormFooterLink"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      alert("Восстановление пароля");
+                    }}
+                  >
+                    Забыли пароль?
+                  </a>
+                </div>
+              </form>
+            )}
+
+            {authModalType === "register" && (
+              <form onSubmit={handleRegisterSubmit}>
+                <p className="registerModalFormHeaderText">Регистрация</p>
+
+                <div className="registerModalFormInputRegister">
+                  <label className="registerModalFormLabel">Имя</label>
+                  <input
+                    type="text"
+                    name="name"
+                    className="registerModalFormInput"
+                    value={registerFormData.name}
+                    onChange={(e) =>
+                      setRegisterFormData({
+                        ...registerFormData,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="registerModalFormInputRegister">
+                  <label className="registerModalFormLabel">E-mail</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="registerModalFormInput"
+                    value={registerFormData.email}
+                    onChange={(e) =>
+                      setRegisterFormData({
+                        ...registerFormData,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="registerModalFormInputPassword">
+                  <label className="registerModalFormLabel">Пароль</label>
+                  <input
+                    type={registerFormInputBtnActive ? "password" : "text"}
+                    name="password"
+                    className="registerModalFormInput"
+                    value={registerFormData.password}
+                    onChange={(e) =>
+                      setRegisterFormData({
+                        ...registerFormData,
+                        password: e.target.value,
+                      })
+                    }
+                  />
+                  <div
+                    className={
+                      registerFormInputBtnActive
+                        ? "formInputPasswordRevealBtn"
+                        : "formInputPasswordRevealBtnActive"
+                    }
+                    onClick={() =>
+                      setRegisterFormInputBtnActive(!registerFormInputBtnActive)
+                    }
+                  ></div>
+                </div>
+
+                <div className="registerModalFormInputPassword">
+                  <label className="registerModalFormLabel">
+                    Подтвердите пароль
+                  </label>
+                  <input
+                    type={confirmPasswordBtnActive ? "password" : "text"}
+                    name="confirmPassword"
+                    className="registerModalFormInput"
+                    value={registerFormData.confirmPassword}
+                    onChange={(e) =>
+                      setRegisterFormData({
+                        ...registerFormData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
+                  />
+                  <div
+                    className={
+                      confirmPasswordBtnActive
+                        ? "formInputPasswordRevealBtn"
+                        : "formInputPasswordRevealBtnActive"
+                    }
+                    onClick={() =>
+                      setConfirmPasswordBtnActive(!confirmPasswordBtnActive)
+                    }
+                  ></div>
+                </div>
+
+                <br />
+                <button type="submit" className="registerModalFormBtn">
                   Зарегистрироваться
-                </a>
-                <a
-                  href="#"
-                  className="loginModalFormFooterLink"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert("Восстановление пароля");
-                  }}
-                >
-                  Забыли пароль?
-                </a>
-              </div>
-            </form>
+                </button>
+                <div className="registerModalFormFooter">
+                  <a
+                    href="#"
+                    className="registerModalFormFooterLink"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openLoginModal();
+                    }}
+                  >
+                    Уже есть аккаунт? Войти
+                  </a>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
