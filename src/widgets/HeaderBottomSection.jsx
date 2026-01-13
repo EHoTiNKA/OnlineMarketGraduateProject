@@ -235,7 +235,12 @@ const HeaderBottomSection = () => {
         )}
 
         {user && user.role === "ADMIN" && (
-          <a href="/admin" className="headerBottomAdminBtn">
+          <a
+            href="/admin"
+            target="_blank"
+            rel="noopener noferrer"
+            className="headerBottomAdminBtn"
+          >
             <p className="headerBottomBtnsText">Админ</p>
           </a>
         )}
