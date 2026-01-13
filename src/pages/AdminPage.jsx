@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/AdminPage.css";
 
@@ -17,6 +17,22 @@ const AdminPage = () => {
   const [showAddLaptopForm, setShowAddLaptopForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [editingLaptop, setEditingLaptop] = useState(null);
+
+  // Данные для редактирования
+  const [editUserData, setEditUserData] = useState({
+    name: "",
+    email: "",
+    role: "USER",
+  });
+
+  const [editLaptopData, setEditLaptopData] = useState({
+    model_name: "",
+    description: "",
+    stock_quantity: 0,
+    price: 0,
+    manufacturer_id: "",
+    is_available: true,
+  });
 
   // Данные для новых записей
   const [newUser, setNewUser] = useState({
@@ -144,7 +160,16 @@ const AdminPage = () => {
     }
   };
 
-  const handleUpdateUser = async (userId, updates) => {
+  const startEditUser = (user) => {
+    setEditingUser(user.id);
+    setEditUserData({
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+  };
+
+  const handleUpdateUser = async (userId) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -155,7 +180,7 @@ const AdminPage = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updates),
+          body: JSON.stringify(editUserData),
         }
       );
 
@@ -248,7 +273,19 @@ const AdminPage = () => {
     }
   };
 
-  const handleUpdateLaptop = async (laptopId, updates) => {
+  const startEditLaptop = (laptop) => {
+    setEditingLaptop(laptop.id);
+    setEditLaptopData({
+      model_name: laptop.model_name,
+      description: laptop.description || "",
+      stock_quantity: laptop.stock_quantity,
+      price: laptop.price,
+      manufacturer_id: laptop.manufacturer_id,
+      is_available: laptop.is_available,
+    });
+  };
+
+  const handleUpdateLaptop = async (laptopId) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -259,7 +296,12 @@ const AdminPage = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updates),
+          body: JSON.stringify({
+            ...editLaptopData,
+            stock_quantity: parseInt(editLaptopData.stock_quantity),
+            price: parseFloat(editLaptopData.price),
+            manufacturer_id: parseInt(editLaptopData.manufacturer_id),
+          }),
         }
       );
 
@@ -374,7 +416,7 @@ const AdminPage = () => {
           <button onClick={loadData} className="admin-refresh-btn">
             Обновить данные
           </button>
-          <a href="/">
+          <a>
             <p className="admin-logout-btn">Выйти</p>
           </a>
         </div>
@@ -487,29 +529,38 @@ const AdminPage = () => {
                           <td>
                             <input
                               type="text"
-                              defaultValue={user.name}
-                              ref={(input) => {
-                                if (input) input.value = user.name;
-                              }}
+                              value={editUserData.name}
+                              onChange={(e) =>
+                                setEditUserData({
+                                  ...editUserData,
+                                  name: e.target.value,
+                                })
+                              }
                               className="admin-input-small"
                             />
                           </td>
                           <td>
                             <input
                               type="email"
-                              defaultValue={user.email}
-                              ref={(input) => {
-                                if (input) input.value = user.email;
-                              }}
+                              value={editUserData.email}
+                              onChange={(e) =>
+                                setEditUserData({
+                                  ...editUserData,
+                                  email: e.target.value,
+                                })
+                              }
                               className="admin-input-small"
                             />
                           </td>
                           <td>
                             <select
-                              defaultValue={user.role}
-                              ref={(select) => {
-                                if (select) select.value = user.role;
-                              }}
+                              value={editUserData.role}
+                              onChange={(e) =>
+                                setEditUserData({
+                                  ...editUserData,
+                                  role: e.target.value,
+                                })
+                              }
                               className="admin-select-small"
                             >
                               <option value="USER">USER</option>
@@ -523,25 +574,7 @@ const AdminPage = () => {
                             <div className="admin-actions">
                               <button
                                 className="admin-save-btn"
-                                onClick={() => {
-                                  const name =
-                                    document.querySelector(
-                                      `input[defaultValue="${user.name}"]`
-                                    )?.value || user.name;
-                                  const email =
-                                    document.querySelector(
-                                      `input[defaultValue="${user.email}"]`
-                                    )?.value || user.email;
-                                  const role =
-                                    document.querySelector(
-                                      `select[defaultValue="${user.role}"]`
-                                    )?.value || user.role;
-                                  handleUpdateUser(user.id, {
-                                    name,
-                                    email,
-                                    role,
-                                  });
-                                }}
+                                onClick={() => handleUpdateUser(user.id)}
                               >
                                 Сохранить
                               </button>
@@ -573,7 +606,7 @@ const AdminPage = () => {
                             <div className="admin-actions">
                               <button
                                 className="admin-edit-btn"
-                                onClick={() => setEditingUser(user.id)}
+                                onClick={() => startEditUser(user)}
                               >
                                 Редактировать
                               </button>
@@ -720,21 +753,26 @@ const AdminPage = () => {
                           <td>
                             <input
                               type="text"
-                              defaultValue={laptop.model_name}
+                              value={editLaptopData.model_name}
+                              onChange={(e) =>
+                                setEditLaptopData({
+                                  ...editLaptopData,
+                                  model_name: e.target.value,
+                                })
+                              }
                               className="admin-input-small"
-                              ref={(input) => {
-                                if (input) input.value = laptop.model_name;
-                              }}
                             />
                           </td>
                           <td>
                             <select
-                              defaultValue={laptop.manufacturer_id}
+                              value={editLaptopData.manufacturer_id}
+                              onChange={(e) =>
+                                setEditLaptopData({
+                                  ...editLaptopData,
+                                  manufacturer_id: e.target.value,
+                                })
+                              }
                               className="admin-select-small"
-                              ref={(select) => {
-                                if (select)
-                                  select.value = laptop.manufacturer_id;
-                              }}
                             >
                               {manufacturers.map((m) => (
                                 <option key={m.id} value={m.id}>
@@ -746,30 +784,40 @@ const AdminPage = () => {
                           <td>
                             <input
                               type="number"
-                              defaultValue={laptop.price}
+                              value={editLaptopData.price}
+                              onChange={(e) =>
+                                setEditLaptopData({
+                                  ...editLaptopData,
+                                  price: e.target.value,
+                                })
+                              }
                               className="admin-input-small"
-                              ref={(input) => {
-                                if (input) input.value = laptop.price;
-                              }}
+                              step="0.01"
                             />
                           </td>
                           <td>
                             <input
                               type="number"
-                              defaultValue={laptop.stock_quantity}
+                              value={editLaptopData.stock_quantity}
+                              onChange={(e) =>
+                                setEditLaptopData({
+                                  ...editLaptopData,
+                                  stock_quantity: e.target.value,
+                                })
+                              }
                               className="admin-input-small"
-                              ref={(input) => {
-                                if (input) input.value = laptop.stock_quantity;
-                              }}
                             />
                           </td>
                           <td>
                             <input
                               type="checkbox"
-                              defaultChecked={laptop.is_available}
-                              ref={(input) => {
-                                if (input) input.checked = laptop.is_available;
-                              }}
+                              checked={editLaptopData.is_available}
+                              onChange={(e) =>
+                                setEditLaptopData({
+                                  ...editLaptopData,
+                                  is_available: e.target.checked,
+                                })
+                              }
                               className="admin-checkbox-small"
                             />
                           </td>
@@ -777,36 +825,7 @@ const AdminPage = () => {
                             <div className="admin-actions">
                               <button
                                 className="admin-save-btn"
-                                onClick={() => {
-                                  const model_name =
-                                    document.querySelector(
-                                      `input[defaultValue="${laptop.model_name}"]`
-                                    )?.value || laptop.model_name;
-                                  const manufacturer_id =
-                                    document.querySelector(
-                                      `select[defaultValue="${laptop.manufacturer_id}"]`
-                                    )?.value || laptop.manufacturer_id;
-                                  const price =
-                                    document.querySelector(
-                                      `input[defaultValue="${laptop.price}"]`
-                                    )?.value || laptop.price;
-                                  const stock_quantity =
-                                    document.querySelector(
-                                      `input[defaultValue="${laptop.stock_quantity}"]`
-                                    )?.value || laptop.stock_quantity;
-                                  const is_available =
-                                    document.querySelector(
-                                      `input[defaultChecked]`
-                                    )?.checked || laptop.is_available;
-
-                                  handleUpdateLaptop(laptop.id, {
-                                    model_name,
-                                    manufacturer_id: parseInt(manufacturer_id),
-                                    price: parseFloat(price),
-                                    stock_quantity: parseInt(stock_quantity),
-                                    is_available,
-                                  });
-                                }}
+                                onClick={() => handleUpdateLaptop(laptop.id)}
                               >
                                 Сохранить
                               </button>
@@ -837,7 +856,7 @@ const AdminPage = () => {
                             <div className="admin-actions">
                               <button
                                 className="admin-edit-btn"
-                                onClick={() => setEditingLaptop(laptop.id)}
+                                onClick={() => startEditLaptop(laptop)}
                               >
                                 Редактировать
                               </button>
