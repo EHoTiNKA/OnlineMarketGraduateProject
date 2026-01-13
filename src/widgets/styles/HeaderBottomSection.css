@@ -497,3 +497,13 @@
 .registerModalFormHeaderText {
     margin-bottom: 24px;
 }
+
+.headerBottomAdminBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    margin-left: 62px;
+    text-decoration: none;
+}

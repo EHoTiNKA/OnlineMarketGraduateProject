@@ -198,7 +198,6 @@ const HeaderBottomSection = () => {
           </svg>
           <p className="headerBottomBtnsText">Корзина</p>
         </a>
-
         {isCheckingAuth ? (
           <div className="headerBottomProfileBtn">
             <svg className="headerBottomSvgProfile">
@@ -233,6 +232,12 @@ const HeaderBottomSection = () => {
             </svg>
             <p className="headerBottomBtnsText">Войти</p>
           </div>
+        )}
+
+        {user && user.role === "ADMIN" && (
+          <a href="/admin" className="headerBottomAdminBtn">
+            <p className="headerBottomBtnsText">Админ</p>
+          </a>
         )}
 
         <div
