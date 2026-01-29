@@ -1,0 +1,432 @@
+.laptopDetailPageContainer {
+    padding: 20px;
+    font-family: "Montserrat", sans-serif;
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+.laptopDetailLoading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.laptopDetailLoadingSpinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0069ab;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.laptopDetailLoadingText {
+    color: #0069ab;
+    font-size: 16px;
+}
+
+.laptopDetailError {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+.laptopDetailError h2 {
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.laptopDetailError p {
+    color: #666;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.laptopDetailBackBtn {
+    padding: 10px 20px;
+    background: #f8f9fa;
+    color: #0069ab;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    margin-bottom: 30px;
+    transition: all 0.3s;
+}
+
+.laptopDetailBackBtn:hover {
+    background: #e9ecef;
+    border-color: #0069ab;
+}
+
+.laptopDetailContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .laptopDetailContent {
+        grid-template-columns: 1fr;
+    }
+}
+
+.laptopDetailGallery {
+    margin-bottom: 40px;
+}
+
+.laptopDetailMainImage {
+    border: 1px solid #e1e4e5;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+.laptopDetailImage {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.laptopDetailThumbnails {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.laptopDetailThumbnail {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.laptopDetailThumbnail:hover {
+    border-color: #0069ab;
+}
+
+.laptopDetailThumbnail.active {
+    border-color: #0069ab;
+    box-shadow: 0 0 0 2px rgba(0, 105, 171, 0.2);
+}
+
+.laptopDetailThumbnailImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.laptopDetailDescriptionSection {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+}
+
+.laptopDetailDescription {
+    color: #333;
+    line-height: 1.6;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+.laptopDetailHeader {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e1e4e5;
+}
+
+.laptopDetailTitle {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.laptopDetailManufacturer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.laptopDetailManufacturerLabel {
+    font-weight: 600;
+}
+
+.laptopDetailManufacturerName {
+    color: #0069ab;
+    font-weight: 500;
+}
+
+.laptopDetailManufacturerCountry {
+    color: #6c757d;
+    font-size: 13px;
+}
+
+.laptopDetailPriceSection {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+}
+
+.laptopDetailPrice {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0069ab;
+    margin-bottom: 10px;
+}
+
+.laptopDetailInStock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.laptopDetailStockStatus {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.laptopDetailStockStatus.available {
+    background: #d4edda;
+    color: #28a745;
+}
+
+.laptopDetailStockStatus.unavailable {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+.laptopDetailStockCount {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.laptopDetailPurchaseSection {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+}
+
+.laptopDetailQuantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.laptopDetailQuantityLabel {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.laptopDetailQuantityControls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.laptopDetailQuantityBtn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.laptopDetailQuantityBtn:hover:not(:disabled) {
+    background: #f8f9fa;
+    border-color: #0069ab;
+}
+
+.laptopDetailQuantityBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.laptopDetailQuantityInput {
+    width: 60px;
+    height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.laptopDetailQuantityInput:focus {
+    border-color: #0069ab;
+    outline: none;
+}
+
+.laptopDetailButtons {
+    display: flex;
+    gap: 15px;
+}
+
+.laptopDetailAddToCartBtn,
+.laptopDetailBuyNowBtn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.laptopDetailAddToCartBtn {
+    background: white;
+    color: #0069ab;
+    border: 2px solid #0069ab;
+}
+
+.laptopDetailAddToCartBtn:hover {
+    background: #0069ab;
+    color: white;
+}
+
+.laptopDetailBuyNowBtn {
+    background: #0069ab;
+    color: white;
+    border: 2px solid #0069ab;
+}
+
+.laptopDetailBuyNowBtn:hover {
+    background: #005693;
+    border-color: #005693;
+}
+
+.laptopDetailSpecsSection {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+}
+
+.laptopDetailSectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0069ab;
+}
+
+.laptopDetailSpecsGrid {
+    display: grid;
+    gap: 12px;
+}
+
+.laptopDetailSpecItem {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.laptopDetailSpecItem:last-child {
+    border-bottom: none;
+}
+
+.laptopDetailSpecLabel {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.laptopDetailSpecValue {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.laptopDetailNoSpecs {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.laptopDetailWarehouseSection {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+}
+
+.laptopDetailWarehouseList {
+    display: grid;
+    gap: 10px;
+}
+
+.laptopDetailWarehouseItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border: 1px solid #e1e4e5;
+    border-radius: 4px;
+}
+
+.laptopDetailWarehouseCity {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.laptopDetailWarehouseQuantity {
+    color: #0069ab;
+    font-weight: 600;
+    font-size: 14px;
+}

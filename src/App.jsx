@@ -10,6 +10,7 @@ import {
 import GeneralPage from "./pages/GeneralPage";
 import AdminPage from "./pages/AdminPage";
 import Zaglushka from "./pages/Zaglushka";
+import LaptopDetailPage from "./pages/LaptopDetailPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<GeneralPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/about-us" element={<Zaglushka />} />
+          <Route path="/laptop/:id" element={<LaptopDetailPage />} />
         </Routes>
       </div>
     </Router>
