@@ -1,4 +1,4 @@
-.admin-page-container {
+.adminPageContainer {
     padding: 20px;
     font-family: "Montserrat", sans-serif;
     max-width: 1400px;
@@ -7,7 +7,7 @@
     background: #f8f9fa;
 }
 
-.admin-loading {
+.adminLoading {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +15,7 @@
     height: 100vh;
 }
 
-.admin-loading-spinner {
+.adminLoadingSpinner {
     width: 40px;
     height: 40px;
     border: 4px solid #f3f3f3;
@@ -25,17 +25,22 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-.admin-loading-text {
+.adminLoadingText {
     margin-top: 16px;
     color: #0069ab;
     font-size: 16px;
 }
 
-.admin-error {
+.adminError {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,18 +53,18 @@
     margin: 20px;
 }
 
-.admin-error h2 {
+.adminError h2 {
     color: #dc3545;
     margin-bottom: 20px;
 }
 
-.admin-error p {
+.adminError p {
     color: #666;
     margin-bottom: 30px;
     max-width: 500px;
 }
 
-.admin-back-btn {
+.adminBackBtn {
     padding: 10px 20px;
     background: #0069ab;
     color: white;
@@ -71,11 +76,11 @@
     transition: background 0.3s;
 }
 
-.admin-back-btn:hover {
+.adminBackBtn:hover {
     background: #005693;
 }
 
-.admin-header {
+.adminHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -83,22 +88,22 @@
     padding: 20px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.admin-title {
+.adminTitle {
     font-size: 28px;
     font-weight: 700;
     color: #0069ab;
     margin: 0;
 }
 
-.admin-actions-top {
+.adminActionsTop {
     display: flex;
     gap: 15px;
 }
 
-.admin-refresh-btn {
+.adminRefreshBtn {
     padding: 10px 20px;
     background: #28a745;
     color: white;
@@ -110,11 +115,11 @@
     transition: background 0.3s;
 }
 
-.admin-refresh-btn:hover {
+.adminRefreshBtn:hover {
     background: #218838;
 }
 
-.admin-logout-btn {
+.adminLogoutBtn {
     padding: 10px 20px;
     background: #dc3545;
     color: white;
@@ -126,21 +131,21 @@
     transition: background 0.3s;
 }
 
-.admin-logout-btn:hover {
+.adminLogoutBtn:hover {
     background: #c82333;
 }
 
-.admin-tabs {
+.adminTabs {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     background: white;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.admin-tab {
+.adminTab {
     padding: 12px 24px;
     background: #f8f9fa;
     border: none;
@@ -153,34 +158,41 @@
     font-weight: 500;
 }
 
-.admin-tab:hover {
+.adminTab:hover {
     background: #e9ecef;
     color: #333;
 }
 
-.admin-tab.active {
+.adminTab.active {
     background: #0069ab;
     color: white;
 }
 
-.admin-content {
+.adminContent {
     background: white;
     border-radius: 8px;
     padding: 30px;
     border: 1px solid #e1e4e5;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.admin-section {
+.adminSection {
     animation: fadeIn 0.3s ease-in;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.admin-section-header {
+.adminSectionHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -189,14 +201,14 @@
     border-bottom: 2px solid #f0f0f0;
 }
 
-.admin-section-title {
+.adminSectionTitle {
     font-size: 22px;
     font-weight: 600;
     color: #333;
     margin: 0;
 }
 
-.admin-add-btn {
+.adminAddBtn {
     padding: 10px 20px;
     background: #0069ab;
     color: white;
@@ -208,11 +220,11 @@
     transition: background 0.3s;
 }
 
-.admin-add-btn:hover {
+.adminAddBtn:hover {
     background: #005693;
 }
 
-.admin-form {
+.adminForm {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
@@ -220,17 +232,19 @@
     border: 1px solid #e9ecef;
 }
 
-.form-row {
+.formRow {
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
 }
 
-.form-row > * {
+.formRow>* {
     flex: 1;
 }
 
-.admin-input, .admin-select, .admin-textarea {
+.adminInput,
+.adminSelect,
+.adminTextarea {
     padding: 10px 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -240,18 +254,20 @@
     width: 100%;
 }
 
-.admin-input:focus, .admin-select:focus, .admin-textarea:focus {
+.adminInput:focus,
+.adminSelect:focus,
+.adminTextarea:focus {
     border-color: #0069ab;
     outline: none;
 }
 
-.admin-textarea {
+.adminTextarea {
     min-height: 80px;
     resize: vertical;
     margin-bottom: 15px;
 }
 
-.admin-checkbox-label {
+.adminCheckboxLabel {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -260,13 +276,13 @@
     cursor: pointer;
 }
 
-.admin-checkbox {
+.adminCheckbox {
     width: 18px;
     height: 18px;
     cursor: pointer;
 }
 
-.admin-submit-btn {
+.adminSubmitBtn {
     padding: 12px 30px;
     background: #28a745;
     color: white;
@@ -278,23 +294,23 @@
     transition: background 0.3s;
 }
 
-.admin-submit-btn:hover {
+.adminSubmitBtn:hover {
     background: #218838;
 }
 
-.admin-table-container {
+.adminTableContainer {
     overflow-x: auto;
     border-radius: 6px;
     border: 1px solid #e9ecef;
 }
 
-.admin-table {
+.adminTable {
     width: 100%;
     border-collapse: collapse;
     min-width: 800px;
 }
 
-.admin-table th {
+.adminTable th {
     text-align: left;
     padding: 16px 12px;
     background: #f8f9fa;
@@ -305,7 +321,7 @@
     white-space: nowrap;
 }
 
-.admin-table td {
+.adminTable td {
     padding: 16px 12px;
     border-bottom: 1px solid #e9ecef;
     font-size: 14px;
@@ -313,15 +329,15 @@
     vertical-align: middle;
 }
 
-.admin-table tr:hover {
+.adminTable tr:hover {
     background: #f8f9fa;
 }
 
-.admin-table tr:last-child td {
+.adminTable tr:last-child td {
     border-bottom: none;
 }
 
-.user-role-badge {
+.userRoleBadge {
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
@@ -329,29 +345,32 @@
     display: inline-block;
 }
 
-.user-role-badge.admin {
+.userRoleBadge.admin {
     background: #0069ab;
     color: white;
 }
 
-.user-role-badge.user {
+.userRoleBadge.user {
     background: #6c757d;
     color: white;
 }
 
-.user-email {
+.userEmail {
     font-size: 12px;
     color: #666;
     margin-top: 2px;
 }
 
-.admin-actions {
+.adminActions {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
 }
 
-.admin-edit-btn, .admin-delete-btn, .admin-save-btn, .admin-cancel-btn {
+.adminEditBtn,
+.adminDeleteBtn,
+.adminSaveBtn,
+.adminCancelBtn {
     padding: 6px 12px;
     border: none;
     border-radius: 4px;
@@ -363,43 +382,43 @@
     white-space: nowrap;
 }
 
-.admin-edit-btn {
+.adminEditBtn {
     background: #17a2b8;
     color: white;
 }
 
-.admin-edit-btn:hover {
+.adminEditBtn:hover {
     background: #138496;
 }
 
-.admin-delete-btn {
+.adminDeleteBtn {
     background: #dc3545;
     color: white;
 }
 
-.admin-delete-btn:hover {
+.adminDeleteBtn:hover {
     background: #c82333;
 }
 
-.admin-save-btn {
+.adminSaveBtn {
     background: #28a745;
     color: white;
 }
 
-.admin-save-btn:hover {
+.adminSaveBtn:hover {
     background: #218838;
 }
 
-.admin-cancel-btn {
+.adminCancelBtn {
     background: #6c757d;
     color: white;
 }
 
-.admin-cancel-btn:hover {
+.adminCancelBtn:hover {
     background: #5a6268;
 }
 
-.admin-input-small {
+.adminInputSmall {
     padding: 6px 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -408,7 +427,7 @@
     min-width: 120px;
 }
 
-.admin-select-small {
+.adminSelectSmall {
     padding: 6px 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -418,13 +437,13 @@
     background: white;
 }
 
-.admin-checkbox-small {
+.adminCheckboxSmall {
     width: 16px;
     height: 16px;
     cursor: pointer;
 }
 
-.status-available {
+.statusAvailable {
     color: #28a745;
     font-weight: 600;
     padding: 4px 8px;
@@ -433,7 +452,7 @@
     font-size: 12px;
 }
 
-.status-unavailable {
+.statusUnavailable {
     color: #dc3545;
     font-weight: 600;
     padding: 4px 8px;
@@ -443,44 +462,44 @@
 }
 
 @media (max-width: 768px) {
-    .admin-page-container {
+    .adminPageContainer {
         padding: 10px;
     }
-    
-    .admin-header {
+
+    .adminHeader {
         flex-direction: column;
         gap: 15px;
         align-items: flex-start;
     }
-    
-    .admin-actions-top {
+
+    .adminActionsTop {
         width: 100%;
         justify-content: space-between;
     }
-    
-    .admin-tabs {
+
+    .adminTabs {
         overflow-x: auto;
         flex-wrap: nowrap;
         padding: 8px;
     }
-    
-    .admin-content {
+
+    .adminContent {
         padding: 15px;
     }
-    
-    .admin-section-header {
+
+    .adminSectionHeader {
         flex-direction: column;
         gap: 15px;
         align-items: flex-start;
     }
-    
-    .form-row {
+
+    .formRow {
         flex-direction: column;
         gap: 10px;
     }
-    
-    .admin-table th:nth-child(5),
-    .admin-table td:nth-child(5) {
+
+    .adminTable th:nth-child(5),
+    .adminTable td:nth-child(5) {
         display: none;
     }
 }

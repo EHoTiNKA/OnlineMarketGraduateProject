@@ -70,28 +70,10 @@
     margin-right: 10px;
     padding: 16px;
     width: 20%;
+    height: 100%;
 
     background: #fff;
     border: 1px solid #e1e4e5;
-}
-
-.catalogFilterSearch {
-    font-size: 12px;
-    font-weight: 400;
-    font-family: "Montserrat", sans-serif;
-    padding: 8px 12px;
-    border: 1px solid #d8dbdd;
-    border-radius: 6px;
-    width: 100%;
-    transition: .25s;
-}
-
-.catalogFilterSearch:focus {
-    border-color: #0069ab;
-}
-
-.generalBodyCatalogFilter {
-    margin-top: 24px;
 }
 
 .catalogFilterTitle {
@@ -243,12 +225,12 @@
 }
 
 .generalBodyCatalogFilter {
-  margin-top: 24px;
+  margin-top: 10px;
   border-bottom: 1px solid #e1e4e5;
   padding-bottom: 16px;
 }
 
 .generalBodyCatalogFilter:last-child {
   border-bottom: none;
-  padding-bottom: 0;
+  padding-bottom: 15px;
 }

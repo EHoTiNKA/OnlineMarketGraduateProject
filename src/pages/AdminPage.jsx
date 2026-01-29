@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/AdminPage.css";
 
@@ -12,13 +12,11 @@ const AdminPage = () => {
   const [manufacturers, setManufacturers] = useState([]);
   const [orders, setOrders] = useState([]);
 
-  // Состояния для форм
   const [showAddUserForm, setShowAddUserForm] = useState(false);
   const [showAddLaptopForm, setShowAddLaptopForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [editingLaptop, setEditingLaptop] = useState(null);
 
-  // Данные для редактирования
   const [editUserData, setEditUserData] = useState({
     name: "",
     email: "",
@@ -34,7 +32,6 @@ const AdminPage = () => {
     is_available: true,
   });
 
-  // Данные для новых записей
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
@@ -124,8 +121,6 @@ const AdminPage = () => {
     }
   };
 
-  // ========== USERS CRUD ==========
-
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
@@ -181,15 +176,15 @@ const AdminPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(editUserData),
-        }
+        },
       );
 
       if (response.ok) {
         const data = await response.json();
         setUsers(
           users.map((user) =>
-            user.id === userId ? { ...user, ...data.user } : user
-          )
+            user.id === userId ? { ...user, ...data.user } : user,
+          ),
         );
         setEditingUser(null);
         alert("Пользователь обновлен");
@@ -214,7 +209,7 @@ const AdminPage = () => {
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       if (response.ok) {
@@ -229,8 +224,6 @@ const AdminPage = () => {
       alert("Ошибка соединения");
     }
   };
-
-  // ========== LAPTOPS CRUD ==========
 
   const handleAddLaptop = async (e) => {
     e.preventDefault();
@@ -302,15 +295,15 @@ const AdminPage = () => {
             price: parseFloat(editLaptopData.price),
             manufacturer_id: parseInt(editLaptopData.manufacturer_id),
           }),
-        }
+        },
       );
 
       if (response.ok) {
         const data = await response.json();
         setLaptops(
           laptops.map((laptop) =>
-            laptop.id === laptopId ? { ...laptop, ...data.laptop } : laptop
-          )
+            laptop.id === laptopId ? { ...laptop, ...data.laptop } : laptop,
+          ),
         );
         setEditingLaptop(null);
         alert("Ноутбук обновлен");
@@ -334,7 +327,7 @@ const AdminPage = () => {
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       if (response.ok) {
@@ -350,8 +343,6 @@ const AdminPage = () => {
     }
   };
 
-  // ========== ORDERS CRUD ==========
-
   const handleUpdateOrderStatus = async (orderId, status) => {
     try {
       const token = localStorage.getItem("token");
@@ -364,15 +355,15 @@ const AdminPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ status }),
-        }
+        },
       );
 
       if (response.ok) {
         const data = await response.json();
         setOrders(
           orders.map((o) =>
-            o.id === orderId ? { ...o, status: data.order.status } : o
-          )
+            o.id === orderId ? { ...o, status: data.order.status } : o,
+          ),
         );
         alert("Статус заказа обновлен");
       } else {
@@ -384,24 +375,27 @@ const AdminPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.close();
+  };
+
   if (loading) {
     return (
-      <div className="admin-loading">
-        <div className="admin-loading-spinner"></div>
-        <p className="admin-loading-text">Загрузка...</p>
+      <div className="adminLoading">
+        <div className="adminLoadingSpinner"></div>
+        <p className="adminLoadingText">Загрузка...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="admin-error">
+      <div className="adminError">
         <h2>Ошибка</h2>
         <p>{error}</p>
-        <button
-          onClick={() => (window.location.href = "/")}
-          className="admin-back-btn"
-        >
+        <button onClick={handleLogout} className="adminBackBtn">
           Вернуться на главную
         </button>
       </div>
@@ -409,56 +403,56 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="admin-page-container">
-      <div className="admin-header">
-        <h1 className="admin-title">Админ панель</h1>
-        <div className="admin-actions-top">
-          <button onClick={loadData} className="admin-refresh-btn">
+    <div className="adminPageContainer">
+      <div className="adminHeader">
+        <h1 className="adminTitle">Админ панель</h1>
+        <div className="adminActionsTop">
+          <button onClick={loadData} className="adminRefreshBtn">
             Обновить данные
           </button>
-          <a>
-            <p className="admin-logout-btn">Выйти</p>
-          </a>
+          <button onClick={handleLogout} className="adminLogoutBtn">
+            Выйти
+          </button>
         </div>
       </div>
 
-      <div className="admin-tabs">
+      <div className="adminTabs">
         <button
-          className={`admin-tab ${activeTab === "users" ? "active" : ""}`}
+          className={`adminTab ${activeTab === "users" ? "active" : ""}`}
           onClick={() => setActiveTab("users")}
         >
           Пользователи ({users.length})
         </button>
         <button
-          className={`admin-tab ${activeTab === "laptops" ? "active" : ""}`}
+          className={`adminTab ${activeTab === "laptops" ? "active" : ""}`}
           onClick={() => setActiveTab("laptops")}
         >
           Ноутбуки ({laptops.length})
         </button>
         <button
-          className={`admin-tab ${activeTab === "orders" ? "active" : ""}`}
+          className={`adminTab ${activeTab === "orders" ? "active" : ""}`}
           onClick={() => setActiveTab("orders")}
         >
           Заказы ({orders.length})
         </button>
       </div>
 
-      <div className="admin-content">
+      <div className="adminContent">
         {activeTab === "users" && (
-          <div className="admin-section">
-            <div className="admin-section-header">
-              <h2 className="admin-section-title">Пользователи</h2>
+          <div className="adminSection">
+            <div className="adminSectionHeader">
+              <h2 className="adminSectionTitle">Пользователи</h2>
               <button
                 onClick={() => setShowAddUserForm(!showAddUserForm)}
-                className="admin-add-btn"
+                className="adminAddBtn"
               >
                 {showAddUserForm ? "Отменить" : "Добавить пользователя"}
               </button>
             </div>
 
             {showAddUserForm && (
-              <form onSubmit={handleAddUser} className="admin-form">
-                <div className="form-row">
+              <form onSubmit={handleAddUser} className="adminForm">
+                <div className="formRow">
                   <input
                     type="text"
                     placeholder="Имя"
@@ -466,7 +460,7 @@ const AdminPage = () => {
                     onChange={(e) =>
                       setNewUser({ ...newUser, name: e.target.value })
                     }
-                    className="admin-input"
+                    className="adminInput"
                     required
                   />
                   <input
@@ -476,11 +470,11 @@ const AdminPage = () => {
                     onChange={(e) =>
                       setNewUser({ ...newUser, email: e.target.value })
                     }
-                    className="admin-input"
+                    className="adminInput"
                     required
                   />
                 </div>
-                <div className="form-row">
+                <div className="formRow">
                   <input
                     type="password"
                     placeholder="Пароль"
@@ -488,7 +482,7 @@ const AdminPage = () => {
                     onChange={(e) =>
                       setNewUser({ ...newUser, password: e.target.value })
                     }
-                    className="admin-input"
+                    className="adminInput"
                     required
                   />
                   <select
@@ -496,20 +490,20 @@ const AdminPage = () => {
                     onChange={(e) =>
                       setNewUser({ ...newUser, role: e.target.value })
                     }
-                    className="admin-select"
+                    className="adminSelect"
                   >
                     <option value="USER">Пользователь</option>
                     <option value="ADMIN">Администратор</option>
                   </select>
                 </div>
-                <button type="submit" className="admin-submit-btn">
+                <button type="submit" className="adminSubmitBtn">
                   Создать
                 </button>
               </form>
             )}
 
-            <div className="admin-table-container">
-              <table className="admin-table">
+            <div className="adminTableContainer">
+              <table className="adminTable">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -536,7 +530,7 @@ const AdminPage = () => {
                                   name: e.target.value,
                                 })
                               }
-                              className="admin-input-small"
+                              className="adminInputSmall"
                             />
                           </td>
                           <td>
@@ -549,7 +543,7 @@ const AdminPage = () => {
                                   email: e.target.value,
                                 })
                               }
-                              className="admin-input-small"
+                              className="adminInputSmall"
                             />
                           </td>
                           <td>
@@ -561,7 +555,7 @@ const AdminPage = () => {
                                   role: e.target.value,
                                 })
                               }
-                              className="admin-select-small"
+                              className="adminSelectSmall"
                             >
                               <option value="USER">USER</option>
                               <option value="ADMIN">ADMIN</option>
@@ -571,15 +565,15 @@ const AdminPage = () => {
                             {new Date(user.createdAt).toLocaleDateString()}
                           </td>
                           <td>
-                            <div className="admin-actions">
+                            <div className="adminActions">
                               <button
-                                className="admin-save-btn"
+                                className="adminSaveBtn"
                                 onClick={() => handleUpdateUser(user.id)}
                               >
                                 Сохранить
                               </button>
                               <button
-                                className="admin-cancel-btn"
+                                className="adminCancelBtn"
                                 onClick={() => setEditingUser(null)}
                               >
                                 Отмена
@@ -594,7 +588,7 @@ const AdminPage = () => {
                           <td>{user.email}</td>
                           <td>
                             <span
-                              className={`user-role-badge ${user.role.toLowerCase()}`}
+                              className={`userRoleBadge ${user.role.toLowerCase()}`}
                             >
                               {user.role}
                             </span>
@@ -603,15 +597,15 @@ const AdminPage = () => {
                             {new Date(user.createdAt).toLocaleDateString()}
                           </td>
                           <td>
-                            <div className="admin-actions">
+                            <div className="adminActions">
                               <button
-                                className="admin-edit-btn"
+                                className="adminEditBtn"
                                 onClick={() => startEditUser(user)}
                               >
                                 Редактировать
                               </button>
                               <button
-                                className="admin-delete-btn"
+                                className="adminDeleteBtn"
                                 onClick={() => handleDeleteUser(user.id)}
                               >
                                 Удалить
@@ -629,20 +623,20 @@ const AdminPage = () => {
         )}
 
         {activeTab === "laptops" && (
-          <div className="admin-section">
-            <div className="admin-section-header">
-              <h2 className="admin-section-title">Ноутбуки</h2>
+          <div className="adminSection">
+            <div className="adminSectionHeader">
+              <h2 className="adminSectionTitle">Ноутбуки</h2>
               <button
                 onClick={() => setShowAddLaptopForm(!showAddLaptopForm)}
-                className="admin-add-btn"
+                className="adminAddBtn"
               >
                 {showAddLaptopForm ? "Отменить" : "Добавить ноутбук"}
               </button>
             </div>
 
             {showAddLaptopForm && (
-              <form onSubmit={handleAddLaptop} className="admin-form">
-                <div className="form-row">
+              <form onSubmit={handleAddLaptop} className="adminForm">
+                <div className="formRow">
                   <input
                     type="text"
                     placeholder="Название модели"
@@ -650,7 +644,7 @@ const AdminPage = () => {
                     onChange={(e) =>
                       setNewLaptop({ ...newLaptop, model_name: e.target.value })
                     }
-                    className="admin-input"
+                    className="adminInput"
                     required
                   />
                   <select
@@ -661,7 +655,7 @@ const AdminPage = () => {
                         manufacturer_id: e.target.value,
                       })
                     }
-                    className="admin-select"
+                    className="adminSelect"
                     required
                   >
                     <option value="">Выберите производителя</option>
@@ -672,7 +666,7 @@ const AdminPage = () => {
                     ))}
                   </select>
                 </div>
-                <div className="form-row">
+                <div className="formRow">
                   <input
                     type="number"
                     placeholder="Цена"
@@ -680,7 +674,7 @@ const AdminPage = () => {
                     onChange={(e) =>
                       setNewLaptop({ ...newLaptop, price: e.target.value })
                     }
-                    className="admin-input"
+                    className="adminInput"
                     min="0"
                     step="0.01"
                     required
@@ -695,7 +689,7 @@ const AdminPage = () => {
                         stock_quantity: e.target.value,
                       })
                     }
-                    className="admin-input"
+                    className="adminInput"
                     min="0"
                     required
                   />
@@ -706,11 +700,11 @@ const AdminPage = () => {
                   onChange={(e) =>
                     setNewLaptop({ ...newLaptop, description: e.target.value })
                   }
-                  className="admin-textarea"
+                  className="adminTextarea"
                   rows="3"
                 />
-                <div className="form-row">
-                  <label className="admin-checkbox-label">
+                <div className="formRow">
+                  <label className="adminCheckboxLabel">
                     <input
                       type="checkbox"
                       checked={newLaptop.is_available}
@@ -720,19 +714,19 @@ const AdminPage = () => {
                           is_available: e.target.checked,
                         })
                       }
-                      className="admin-checkbox"
+                      className="adminCheckbox"
                     />
                     Доступен для покупки
                   </label>
                 </div>
-                <button type="submit" className="admin-submit-btn">
+                <button type="submit" className="adminSubmitBtn">
                   Создать
                 </button>
               </form>
             )}
 
-            <div className="admin-table-container">
-              <table className="admin-table">
+            <div className="adminTableContainer">
+              <table className="adminTable">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -760,7 +754,7 @@ const AdminPage = () => {
                                   model_name: e.target.value,
                                 })
                               }
-                              className="admin-input-small"
+                              className="adminInputSmall"
                             />
                           </td>
                           <td>
@@ -772,7 +766,7 @@ const AdminPage = () => {
                                   manufacturer_id: e.target.value,
                                 })
                               }
-                              className="admin-select-small"
+                              className="adminSelectSmall"
                             >
                               {manufacturers.map((m) => (
                                 <option key={m.id} value={m.id}>
@@ -791,7 +785,7 @@ const AdminPage = () => {
                                   price: e.target.value,
                                 })
                               }
-                              className="admin-input-small"
+                              className="adminInputSmall"
                               step="0.01"
                             />
                           </td>
@@ -805,7 +799,7 @@ const AdminPage = () => {
                                   stock_quantity: e.target.value,
                                 })
                               }
-                              className="admin-input-small"
+                              className="adminInputSmall"
                             />
                           </td>
                           <td>
@@ -818,19 +812,19 @@ const AdminPage = () => {
                                   is_available: e.target.checked,
                                 })
                               }
-                              className="admin-checkbox-small"
+                              className="adminCheckboxSmall"
                             />
                           </td>
                           <td>
-                            <div className="admin-actions">
+                            <div className="adminActions">
                               <button
-                                className="admin-save-btn"
+                                className="adminSaveBtn"
                                 onClick={() => handleUpdateLaptop(laptop.id)}
                               >
                                 Сохранить
                               </button>
                               <button
-                                className="admin-cancel-btn"
+                                className="adminCancelBtn"
                                 onClick={() => setEditingLaptop(null)}
                               >
                                 Отмена
@@ -847,21 +841,21 @@ const AdminPage = () => {
                           <td>{laptop.stock_quantity}</td>
                           <td>
                             {laptop.is_available ? (
-                              <span className="status-available">Да</span>
+                              <span className="statusAvailable">Да</span>
                             ) : (
-                              <span className="status-unavailable">Нет</span>
+                              <span className="statusUnavailable">Нет</span>
                             )}
                           </td>
                           <td>
-                            <div className="admin-actions">
+                            <div className="adminActions">
                               <button
-                                className="admin-edit-btn"
+                                className="adminEditBtn"
                                 onClick={() => startEditLaptop(laptop)}
                               >
                                 Редактировать
                               </button>
                               <button
-                                className="admin-delete-btn"
+                                className="adminDeleteBtn"
                                 onClick={() => handleDeleteLaptop(laptop.id)}
                               >
                                 Удалить
@@ -879,10 +873,10 @@ const AdminPage = () => {
         )}
 
         {activeTab === "orders" && (
-          <div className="admin-section">
-            <h2 className="admin-section-title">Заказы</h2>
-            <div className="admin-table-container">
-              <table className="admin-table">
+          <div className="adminSection">
+            <h2 className="adminSectionTitle">Заказы</h2>
+            <div className="adminTableContainer">
+              <table className="adminTable">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -900,7 +894,7 @@ const AdminPage = () => {
                       <td>
                         <div>
                           <div>{order.user?.name || "Неизвестно"}</div>
-                          <div className="user-email">
+                          <div className="userEmail">
                             {order.user?.email || ""}
                           </div>
                         </div>
@@ -913,7 +907,7 @@ const AdminPage = () => {
                           onChange={(e) =>
                             handleUpdateOrderStatus(order.id, e.target.value)
                           }
-                          className="admin-select"
+                          className="adminSelect"
                         >
                           <option value="PENDING">В ожидании</option>
                           <option value="CONFIRMED">Подтвержден</option>

@@ -274,12 +274,6 @@ const GeneralBody = () => {
       <div className="generalBodyFiltersAndProducts">
         <div className="generalBodyFilters">
           <form action method="get" className="generalBodyCatalogFilterForm">
-            <input
-              type="text"
-              placeholder="Поиск по фильтрам"
-              className="catalogFilterSearch"
-            />
-
             <div className="generalBodyCatalogFilter">
               <div
                 className="catalogFilterTitle"
