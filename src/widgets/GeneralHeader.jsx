@@ -206,7 +206,7 @@ const GeneralHeader = () => {
             <p className="headerMoreInfoModalLinkText">Лизинг</p>
           </a>
           <a
-            href="/about/"
+            href="/about-us/"
             rel="nofollow"
             className="headerMoreInfoModalLink headerMoreInfoModalLink-consultingCenter"
             aria-label="Перейти на страницу о нас"
