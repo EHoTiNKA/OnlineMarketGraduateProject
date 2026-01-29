@@ -5,7 +5,7 @@ const CatalogLaptopItem = ({ laptop }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const images =
     laptop.images?.map(
-      (img) => `http://localhost:5000/uploads/${img.image_url}`
+      (img) => `http://localhost:5000/uploads/${img.image_url}`,
     ) || [];
 
   const handleHover = (index) => {

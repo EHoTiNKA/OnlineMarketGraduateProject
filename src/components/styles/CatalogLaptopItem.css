@@ -211,3 +211,26 @@
     border-color: #008ee6;
     color: #007cc9;
 }
+
+.catalogLaptopAddToCart {
+    width: 100%;
+    padding: 10px;
+    background: #0069ab;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+.catalogLaptopAddToCart:hover {
+    background: #005693;
+}
+
+.catalogLaptopAddToCart:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}

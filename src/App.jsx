@@ -11,6 +11,7 @@ import GeneralPage from "./pages/GeneralPage";
 import AdminPage from "./pages/AdminPage";
 import Zaglushka from "./pages/Zaglushka";
 import LaptopDetailPage from "./pages/LaptopDetailPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/about-us" element={<Zaglushka />} />
           <Route path="/laptop/:id" element={<LaptopDetailPage />} />
+          <Route path="/basket" element={<CartPage />} />
         </Routes>
       </div>
     </Router>

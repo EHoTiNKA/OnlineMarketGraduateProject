@@ -1,0 +1,249 @@
+.cartPageContainer {
+    padding: 20px;
+    font-family: "Montserrat", sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+.cartTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0069ab;
+    margin-bottom: 30px;
+}
+
+.cartEmpty {
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.cartContinueShopping {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-top: 12px;
+    background: #0069ab;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.cartContinueShopping:hover {
+    background: #005693;
+}
+
+.cartContent {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+}
+
+@media (max-width: 900px) {
+    .cartContent {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cartItem {
+    display: grid;
+    grid-template-columns: 120px 1fr 150px 100px 100px;
+    gap: 20px;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+}
+
+@media (max-width: 768px) {
+    .cartItem {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+.cartItemImage {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cartItemImage img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.cartItemDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cartItemTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.cartItemManufacturer {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.cartItemPrice {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0069ab;
+    margin: 0;
+}
+
+.cartItemQuantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.cartItemQuantity button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.cartItemQuantity button:hover:not(:disabled) {
+    background: #f8f9fa;
+    border-color: #0069ab;
+}
+
+.cartItemQuantity button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cartItemQuantity span {
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+}
+
+.cartItemSubtotal {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+}
+
+.cartItemRemove {
+    padding: 8px 16px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.cartItemRemove:hover {
+    background: #c82333;
+}
+
+.cartSummary {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e5;
+    height: fit-content;
+}
+
+.cartSummaryTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0069ab;
+}
+
+.cartSummaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.cartSummaryTotal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #e1e4e5;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0069ab;
+}
+
+.cartCheckoutBtn {
+    width: 100%;
+    padding: 15px;
+    background: #0069ab;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.cartCheckoutBtn:hover {
+    background: #005693;
+}
+
+.cartClearBtn {
+    width: 100%;
+    padding: 15px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.cartClearBtn:hover {
+    background: #5a6268;
+}
