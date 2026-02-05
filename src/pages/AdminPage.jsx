@@ -14,6 +14,8 @@ const AdminPage = () => {
 
   const [showAddUserForm, setShowAddUserForm] = useState(false);
   const [showAddLaptopForm, setShowAddLaptopForm] = useState(false);
+  const [showAddOrderForm, setShowAddOrderForm] = useState(false);
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const [editingLaptop, setEditingLaptop] = useState(null);
 
@@ -46,6 +48,19 @@ const AdminPage = () => {
     price: 0,
     manufacturer_id: "",
     is_available: true,
+  });
+
+  const [newOrder, setNewOrder] = useState({
+    user_id: "",
+    total_amount: 0,
+    status: "PENDING",
+    items: []
+  });
+
+  const [currentOrderItem, setCurrentOrderItem] = useState({
+    laptop_id: "",
+    quantity: 1,
+    price: 0
   });
 
   const navigate = useNavigate();
@@ -343,6 +358,105 @@ const AdminPage = () => {
     }
   };
 
+  const handleAddOrderItem = () => {
+    if (!currentOrderItem.laptop_id || currentOrderItem.quantity < 1) {
+      alert("Выберите товар и укажите количество");
+      return;
+    }
+
+    const selectedLaptop = laptops.find(l => l.id === parseInt(currentOrderItem.laptop_id));
+    if (!selectedLaptop) {
+      alert("Товар не найден");
+      return;
+    }
+
+    const price = currentOrderItem.price > 0 ? currentOrderItem.price : selectedLaptop.price;
+    
+    const newItem = {
+      laptop_id: currentOrderItem.laptop_id,
+      quantity: parseInt(currentOrderItem.quantity),
+      price: parseFloat(price),
+      laptop_name: selectedLaptop.model_name
+    };
+
+    setNewOrder({
+      ...newOrder,
+      items: [...newOrder.items, newItem],
+      total_amount: newOrder.total_amount + (newItem.price * newItem.quantity)
+    });
+
+    setCurrentOrderItem({
+      laptop_id: "",
+      quantity: 1,
+      price: 0
+    });
+  };
+
+  const removeOrderItem = (index) => {
+    const itemToRemove = newOrder.items[index];
+    const updatedItems = newOrder.items.filter((_, i) => i !== index);
+    
+    setNewOrder({
+      ...newOrder,
+      items: updatedItems,
+      total_amount: newOrder.total_amount - (itemToRemove.price * itemToRemove.quantity)
+    });
+  };
+
+  const handleCreateOrder = async (e) => {
+    e.preventDefault();
+    
+    if (!newOrder.user_id) {
+      alert("Выберите пользователя");
+      return;
+    }
+
+    if (newOrder.items.length === 0) {
+      alert("Добавьте хотя бы один товар");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:5000/api/admin/orders", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: newOrder.user_id,
+          items: newOrder.items.map(item => ({
+            laptop_id: item.laptop_id,
+            quantity: item.quantity,
+            price: item.price
+          })),
+          total_amount: newOrder.total_amount,
+          status: newOrder.status
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setOrders([data.order, ...orders]);
+        setShowAddOrderForm(false);
+        setNewOrder({
+          user_id: "",
+          total_amount: 0,
+          status: "PENDING",
+          items: []
+        });
+        alert("Заказ успешно создан");
+      } else {
+        alert(data.message || "Ошибка при создании заказа");
+      }
+    } catch (error) {
+      console.error("Ошибка создания заказа:", error);
+      alert("Ошибка соединения");
+    }
+  };
+
   const handleUpdateOrderStatus = async (orderId, status) => {
     try {
       const token = localStorage.getItem("token");
@@ -373,6 +487,37 @@ const AdminPage = () => {
       console.error("Ошибка обновления:", error);
       alert("Ошибка соединения");
     }
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    if (!window.confirm("Вы уверены, что хотите удалить этот заказ?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:5000/api/admin/orders/${orderId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setOrders(orders.filter((o) => o.id !== orderId));
+        alert("Заказ удален");
+      } else {
+        alert(data.message || "Ошибка при удалении");
+      }
+    } catch (error) {
+      console.error("Ошибка удаления:", error);
+      alert("Ошибка соединения");
+    }
+  };
+
+  const toggleOrderDetails = (orderId) => {
+    setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   };
 
   const handleLogout = () => {
@@ -874,7 +1019,156 @@ const AdminPage = () => {
 
         {activeTab === "orders" && (
           <div className="adminSection">
-            <h2 className="adminSectionTitle">Заказы</h2>
+            <div className="adminSectionHeader">
+              <h2 className="adminSectionTitle">Заказы</h2>
+              <button
+                onClick={() => setShowAddOrderForm(!showAddOrderForm)}
+                className="adminAddBtn"
+              >
+                {showAddOrderForm ? "Отменить" : "Добавить заказ"}
+              </button>
+            </div>
+
+            {showAddOrderForm && (
+              <form onSubmit={handleCreateOrder} className="adminForm orderForm">
+                <h3>Создание нового заказа</h3>
+                
+                <div className="formRow">
+                  <div className="formGroup">
+                    <label>Пользователь:</label>
+                    <select
+                      value={newOrder.user_id}
+                      onChange={(e) => setNewOrder({...newOrder, user_id: e.target.value})}
+                      className="adminSelect"
+                      required
+                    >
+                      <option value="">Выберите пользователя</option>
+                      {users.map(user => (
+                        <option key={user.id} value={user.id}>
+                          {user.name} ({user.email})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div className="formGroup">
+                    <label>Статус:</label>
+                    <select
+                      value={newOrder.status}
+                      onChange={(e) => setNewOrder({...newOrder, status: e.target.value})}
+                      className="adminSelect"
+                    >
+                      <option value="PENDING">В ожидании</option>
+                      <option value="CONFIRMED">Подтвержден</option>
+                      <option value="SHIPPED">Отправлен</option>
+                      <option value="DELIVERED">Доставлен</option>
+                      <option value="CANCELLED">Отменен</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="orderItemsSection">
+                  <h4>Товары в заказе</h4>
+                  
+                  <div className="addItemForm">
+                    <div className="formRow">
+                      <select
+                        value={currentOrderItem.laptop_id}
+                        onChange={(e) => {
+                          const laptopId = e.target.value;
+                          const selectedLaptop = laptops.find(l => l.id === parseInt(laptopId));
+                          setCurrentOrderItem({
+                            ...currentOrderItem,
+                            laptop_id: laptopId,
+                            price: selectedLaptop ? selectedLaptop.price : 0
+                          });
+                        }}
+                        className="adminInput"
+                      >
+                        <option value="">Выберите товар</option>
+                        {laptops.map(laptop => (
+                          <option key={laptop.id} value={laptop.id}>
+                            {laptop.model_name} ({laptop.price} руб.)
+                          </option>
+                        ))}
+                      </select>
+                      
+                      <input
+                        type="number"
+                        placeholder="Количество"
+                        value={currentOrderItem.quantity}
+                        onChange={(e) => setCurrentOrderItem({...currentOrderItem, quantity: e.target.value})}
+                        className="adminInput"
+                        min="1"
+                      />
+                      
+                      <input
+                        type="number"
+                        placeholder="Цена"
+                        value={currentOrderItem.price}
+                        onChange={(e) => setCurrentOrderItem({...currentOrderItem, price: e.target.value})}
+                        className="adminInput"
+                        min="0"
+                        step="0.01"
+                      />
+                      
+                      <button
+                        type="button"
+                        onClick={handleAddOrderItem}
+                        className="adminAddItemBtn"
+                      >
+                        Добавить
+                      </button>
+                    </div>
+                  </div>
+
+                  {newOrder.items.length > 0 ? (
+                    <div className="orderItemsList">
+                      <table className="adminTable small">
+                        <thead>
+                          <tr>
+                            <th>Товар</th>
+                            <th>Количество</th>
+                            <th>Цена</th>
+                            <th>Сумма</th>
+                            <th>Действия</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {newOrder.items.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item.laptop_name}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.price.toLocaleString()} руб.</td>
+                              <td>{(item.price * item.quantity).toLocaleString()} руб.</td>
+                              <td>
+                                <button
+                                  type="button"
+                                  onClick={() => removeOrderItem(index)}
+                                  className="adminDeleteBtn small"
+                                >
+                                  Удалить
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="orderTotal">
+                        <strong>Общая сумма: {newOrder.total_amount.toLocaleString()} руб.</strong>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="noItemsText">Нет добавленных товаров</p>
+                  )}
+                </div>
+
+                <button type="submit" className="adminSubmitBtn">
+                  Создать заказ
+                </button>
+              </form>
+            )}
+
             <div className="adminTableContainer">
               <table className="adminTable">
                 <thead>
@@ -885,39 +1179,89 @@ const AdminPage = () => {
                     <th>Сумма</th>
                     <th>Статус</th>
                     <th>Товары</th>
+                    <th>Действия</th>
                   </tr>
                 </thead>
                 <tbody>
                   {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>
-                        <div>
-                          <div>{order.user?.name || "Неизвестно"}</div>
-                          <div className="userEmail">
-                            {order.user?.email || ""}
+                    <>
+                      <tr key={order.id} className="orderRow">
+                        <td>{order.id}</td>
+                        <td>
+                          <div>
+                            <div>{order.user?.name || "Неизвестно"}</div>
+                            <div className="userEmail">
+                              {order.user?.email || ""}
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>{new Date(order.order_date).toLocaleDateString()}</td>
-                      <td>{order.total_amount.toLocaleString()} ₽</td>
-                      <td>
-                        <select
-                          value={order.status}
-                          onChange={(e) =>
-                            handleUpdateOrderStatus(order.id, e.target.value)
-                          }
-                          className="adminSelect"
-                        >
-                          <option value="PENDING">В ожидании</option>
-                          <option value="CONFIRMED">Подтвержден</option>
-                          <option value="SHIPPED">Отправлен</option>
-                          <option value="DELIVERED">Доставлен</option>
-                          <option value="CANCELLED">Отменен</option>
-                        </select>
-                      </td>
-                      <td>{order.orderItems?.length || 0} шт.</td>
-                    </tr>
+                        </td>
+                        <td>{new Date(order.order_date).toLocaleDateString()}</td>
+                        <td>{order.total_amount.toLocaleString()} ₽</td>
+                        <td>
+                          <select
+                            value={order.status}
+                            onChange={(e) =>
+                              handleUpdateOrderStatus(order.id, e.target.value)
+                            }
+                            className="adminSelect small"
+                          >
+                            <option value="PENDING">В ожидании</option>
+                            <option value="CONFIRMED">Подтвержден</option>
+                            <option value="SHIPPED">Отправлен</option>
+                            <option value="DELIVERED">Доставлен</option>
+                            <option value="CANCELLED">Отменен</option>
+                          </select>
+                        </td>
+                        <td>
+                          {order.orderItems?.length || 0} шт.
+                          <button 
+                            onClick={() => toggleOrderDetails(order.id)}
+                            className="toggleDetailsBtn"
+                          >
+                            {expandedOrderId === order.id ? "Скрыть" : "Показать"}
+                          </button>
+                        </td>
+                        <td>
+                          <div className="adminActions">
+                            <button
+                              className="adminDeleteBtn"
+                              onClick={() => handleDeleteOrder(order.id)}
+                            >
+                              Удалить
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      {expandedOrderId === order.id && order.orderItems && order.orderItems.length > 0 && (
+                        <tr className="orderDetailsRow">
+                          <td colSpan="7">
+                            <div className="orderDetails">
+                              <h4>Товары в заказе:</h4>
+                              <table className="adminTable small">
+                                <thead>
+                                  <tr>
+                                    <th>Товар</th>
+                                    <th>Количество</th>
+                                    <th>Цена</th>
+                                    <th>Сумма</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {order.orderItems.map((item, index) => (
+                                    <tr key={index}>
+                                      <td>{item.laptop?.model_name || `Товар #${item.laptop_id}`}</td>
+                                      <td>{item.item_quantity}</td>
+                                      <td>{item.price.toLocaleString()} руб.</td>
+                                      <td>{(item.price * item.item_quantity).toLocaleString()} руб.</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </>
                   ))}
                 </tbody>
               </table>

@@ -21,6 +21,8 @@ function App() {
           <Route path="/" element={<GeneralPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/about-us" element={<Zaglushka />} />
+          <Route path="/sellout" element={<Zaglushka />} />
+          <Route path="/auctions" element={<Zaglushka />} />
           <Route path="/laptop/:id" element={<LaptopDetailPage />} />
           <Route path="/basket" element={<CartPage />} />
         </Routes>

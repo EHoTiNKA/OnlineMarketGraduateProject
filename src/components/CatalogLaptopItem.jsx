@@ -1,8 +1,11 @@
 import "./styles/CatalogLaptopItem.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CatalogLaptopItem = ({ laptop }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
+  
   const images =
     laptop.images?.map(
       (img) => `http://localhost:5000/uploads/${img.image_url}`,
@@ -30,6 +33,82 @@ const CatalogLaptopItem = ({ laptop }) => {
     }GB/${specs.storage?.capacity || "?"}GB SSD/${
       specs.screen?.diagonal || "?"
     }" ${specs.screen?.resolution || ""}`.trim();
+  };
+
+  // Простая функция для получения URL изображения
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "";
+    return `http://localhost:5000/uploads/${imagePath}`;
+  };
+
+  const handleAddToCart = () => {
+    if (!laptop.is_available) {
+      alert("Этот товар временно недоступен");
+      return;
+    }
+
+    const quantity = 1;
+
+    if (quantity > laptop.stock_quantity) {
+      alert(`Доступно только ${laptop.stock_quantity} шт. на складе`);
+      return;
+    }
+
+    const cart = JSON.parse(localStorage.getItem("laptop_cart")) || [];
+    const existingItemIndex = cart.findIndex((item) => item.id === laptop.id);
+
+    if (existingItemIndex >= 0) {
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      cart.push({
+        id: laptop.id,
+        model_name: laptop.model_name,
+        price: laptop.price,
+        imageUrl: laptop.images?.[0]?.image_url 
+          ? `http://localhost:5000/uploads/${laptop.images[0].image_url}`
+          : "",
+        manufacturer: laptop.manufacturer?.name,
+        quantity: quantity,
+      });
+    }
+
+    localStorage.setItem("laptop_cart", JSON.stringify(cart));
+    alert(`Товар "${laptop.model_name}" добавлен в корзину (${quantity} шт.)`);
+  };
+
+  const handleFastBuy = () => {
+    if (!laptop.is_available) {
+      alert("Этот товар временно недоступен");
+      return;
+    }
+
+    const quantity = 1;
+
+    if (quantity > laptop.stock_quantity) {
+      alert(`Доступно только ${laptop.stock_quantity} шт. на складе`);
+      return;
+    }
+
+    const cart = JSON.parse(localStorage.getItem("laptop_cart")) || [];
+    const existingItemIndex = cart.findIndex((item) => item.id === laptop.id);
+
+    if (existingItemIndex >= 0) {
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      cart.push({
+        id: laptop.id,
+        model_name: laptop.model_name,
+        price: laptop.price,
+        imageUrl: laptop.images?.[0]?.image_url 
+          ? `http://localhost:5000/uploads/${laptop.images[0].image_url}`
+          : "",
+        manufacturer: laptop.manufacturer?.name,
+        quantity: quantity,
+      });
+    }
+
+    localStorage.setItem("laptop_cart", JSON.stringify(cart));
+    navigate("/basket"); // Переход на страницу корзины
   };
 
   return (
@@ -101,8 +180,16 @@ const CatalogLaptopItem = ({ laptop }) => {
           <p className="LaptopBuyoutPriceCurrency">руб.</p>
         </div>
         <div className="catalogItemLaptopBtns">
-          <button className="catalogItemLaptopAddBasketBtn">В корзину</button>
-          <button className="catalogItemLaptopFastBuyBtn">
+          <button
+            className="catalogItemLaptopAddBasketBtn"
+            onClick={handleAddToCart}
+          >
+            В корзину
+          </button>
+          <button
+            className="catalogItemLaptopFastBuyBtn"
+            onClick={handleFastBuy}
+          >
             Купить в один клик
           </button>
         </div>

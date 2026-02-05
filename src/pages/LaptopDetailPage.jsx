@@ -87,6 +87,7 @@ const LaptopDetailPage = () => {
     alert(`Товар "${laptop.model_name}" добавлен в корзину (${quantity} шт.)`);
   };
 
+  // В компоненте LaptopDetailPage обновим handleBuyNow
   const handleBuyNow = () => {
     if (!laptop.is_available) {
       alert("Этот товар временно недоступен");
@@ -98,9 +99,24 @@ const LaptopDetailPage = () => {
       return;
     }
 
-    alert(
-      `Переход к оформлению заказа на "${laptop.model_name}" (${quantity} шт.)`,
-    );
+    const cart = JSON.parse(localStorage.getItem("laptop_cart")) || [];
+    const existingItemIndex = cart.findIndex((item) => item.id === laptop.id);
+
+    if (existingItemIndex >= 0) {
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      cart.push({
+        id: laptop.id,
+        model_name: laptop.model_name,
+        price: laptop.price,
+        imageUrl: getImageUrl(laptop.images?.[0]?.image_url),
+        manufacturer: laptop.manufacturer?.name,
+        quantity: quantity,
+      });
+    }
+
+    localStorage.setItem("laptop_cart", JSON.stringify(cart));
+    navigate("/basket"); // Добавляем переход на страницу корзины
   };
 
   if (loading) {
