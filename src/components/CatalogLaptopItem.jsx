@@ -35,11 +35,10 @@ const CatalogLaptopItem = ({ laptop }) => {
     }" ${specs.screen?.resolution || ""}`.trim();
   };
 
-  // Простая функция для получения URL изображения
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "";
-    return `http://localhost:5000/uploads/${imagePath}`;
-  };
+  // const getImageUrl = (imagePath) => {
+  //   if (!imagePath) return "";
+  //   return `http://localhost:5000/uploads/${imagePath}`;
+  // };
 
   const handleAddToCart = () => {
     if (!laptop.is_available) {
@@ -108,7 +107,7 @@ const CatalogLaptopItem = ({ laptop }) => {
     }
 
     localStorage.setItem("laptop_cart", JSON.stringify(cart));
-    navigate("/basket"); // Переход на страницу корзины
+    navigate("/basket");
   };
 
   return (

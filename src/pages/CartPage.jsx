@@ -11,12 +11,10 @@ const CartPage = () => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    // Получаем корзину
     const cart = JSON.parse(localStorage.getItem("laptop_cart")) || [];
     setCartItems(cart);
     calculateTotal(cart);
 
-    // Получаем информацию о текущем пользователе и токен
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
 
@@ -75,13 +73,11 @@ const CartPage = () => {
       return;
     }
 
-    // Проверяем авторизацию пользователя
     if (!currentUser || !token) {
       alert("Для оформления заказа необходимо авторизоваться!");
       return;
     }
 
-    // Подтверждение пользователя
     const confirmOrder = window.confirm(
       `Вы уверены, что хотите оформить заказ?\n\n` +
         `Количество товаров: ${cartItems.reduce((sum, item) => sum + item.quantity, 0)}\n` +
@@ -97,7 +93,6 @@ const CartPage = () => {
     setOrderStatus(null);
 
     try {
-      // Используем новый эндпоинт для создания заказа с товарами
       const orderResponse = await fetch(
         "http://localhost:5000/api/orders/create-with-items",
         {
@@ -124,7 +119,6 @@ const CartPage = () => {
         throw new Error(data.message || "Не удалось создать заказ");
       }
 
-      // Очищаем корзину и показываем успех
       clearCart();
       setOrderStatus({
         success: true,
@@ -132,9 +126,8 @@ const CartPage = () => {
         message: `Заказ успешно создан! Номер заказа: #${data.orderId}`,
       });
 
-      // Показываем алерт с информацией о заказе
       alert(
-        `✅ Заказ успешно создан!\n\n` +
+        `Заказ успешно создан!\n\n` +
           `Номер заказа: #${data.orderId}\n` +
           `Сумма: ${total.toLocaleString()} руб.\n` +
           `Статус: Обрабатывается\n\n` +
@@ -148,14 +141,13 @@ const CartPage = () => {
       });
 
       alert(
-        `❌ Ошибка при оформлении заказа:\n${error.message || "Неизвестная ошибка"}`,
+        `Ошибка при оформлении заказа:\n${error.message || "Неизвестная ошибка"}`,
       );
     } finally {
       setIsCreatingOrder(false);
     }
   };
 
-  // Альтернативный вариант (если хотите использовать отдельные эндпоинты)
   const handleCreateOrderAlternative = async () => {
     if (cartItems.length === 0) {
       alert("Корзина пуста!");
@@ -170,7 +162,6 @@ const CartPage = () => {
     setIsCreatingOrder(true);
 
     try {
-      // 1. Создаем заказ
       const orderResponse = await fetch("http://localhost:5000/api/orders", {
         method: "POST",
         headers: {
@@ -190,7 +181,6 @@ const CartPage = () => {
 
       const orderId = orderData.order.id;
 
-      // 2. Создаем элементы заказа
       for (const item of cartItems) {
         const orderItemResponse = await fetch(
           "http://localhost:5000/api/order-items",
@@ -217,7 +207,6 @@ const CartPage = () => {
         }
       }
 
-      // 3. Очищаем корзину
       clearCart();
 
       alert(

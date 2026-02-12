@@ -47,8 +47,6 @@
     fill: #0069ab;
 }
 
-/*------------------------------------------------*/
-
 .hoursOfWorkContent {
     display: flex;
     flex-direction: row;
@@ -71,8 +69,6 @@
     font-weight: 500;
     font-family: "Montserrat", sans-serif;
 }
-
-/*------------------------------------------------*/
 
 .supportPhoneNumbContent {
     display: flex;

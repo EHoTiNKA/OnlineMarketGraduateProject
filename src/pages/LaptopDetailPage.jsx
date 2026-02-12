@@ -10,8 +10,6 @@ const LaptopDetailPage = () => {
   const [error, setError] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-
-  // Базовый URL для изображений из твоего кода
   const imageBaseUrl = "http://localhost:5000/uploads";
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const LaptopDetailPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Laptop data:", data); // Для отладки
+        console.log("Laptop data:", data);
         setLaptop(data);
       } else {
         setError("Ноутбук не найден");
@@ -38,16 +36,13 @@ const LaptopDetailPage = () => {
     }
   };
 
-  // Функция для получения полного URL изображения
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "https://via.placeholder.com/600x400?text=No+Image";
 
-    // Если путь уже содержит http:// или https://, возвращаем как есть
     if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
       return imagePath;
     }
 
-    // Иначе добавляем базовый URL
     return `${imageBaseUrl}/${imagePath}`;
   };
 
@@ -55,7 +50,6 @@ const LaptopDetailPage = () => {
     navigate(-1);
   };
 
-  // Добавьте эту функцию в компонент LaptopDetailPage
   const handleAddToCart = () => {
     if (!laptop.is_available) {
       alert("Этот товар временно недоступен");
@@ -87,7 +81,6 @@ const LaptopDetailPage = () => {
     alert(`Товар "${laptop.model_name}" добавлен в корзину (${quantity} шт.)`);
   };
 
-  // В компоненте LaptopDetailPage обновим handleBuyNow
   const handleBuyNow = () => {
     if (!laptop.is_available) {
       alert("Этот товар временно недоступен");
@@ -116,7 +109,7 @@ const LaptopDetailPage = () => {
     }
 
     localStorage.setItem("laptop_cart", JSON.stringify(cart));
-    navigate("/basket"); // Добавляем переход на страницу корзины
+    navigate("/basket");
   };
 
   if (loading) {
@@ -140,7 +133,6 @@ const LaptopDetailPage = () => {
     );
   }
 
-  // Получаем все изображения ноутбука
   const allImages = laptop.images || [];
   const mainImage = allImages[selectedImageIndex] || allImages[0];
 

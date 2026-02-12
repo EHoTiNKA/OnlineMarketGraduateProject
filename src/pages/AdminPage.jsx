@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./styles/AdminPage.css";
 
 const AdminPage = () => {
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("users");
   const [error, setError] = useState("");
 
@@ -54,13 +53,13 @@ const AdminPage = () => {
     user_id: "",
     total_amount: 0,
     status: "PENDING",
-    items: []
+    items: [],
   });
 
   const [currentOrderItem, setCurrentOrderItem] = useState({
     laptop_id: "",
     quantity: 1,
-    price: 0
+    price: 0,
   });
 
   const navigate = useNavigate();
@@ -127,12 +126,9 @@ const AdminPage = () => {
       if (laptopsRes.ok) setLaptops(await laptopsRes.json());
       if (manufacturersRes.ok) setManufacturers(await manufacturersRes.json());
       if (ordersRes.ok) setOrders(await ordersRes.json());
-
-      setLoading(false);
     } catch (error) {
       console.error("Ошибка загрузки данных:", error);
       setError("Ошибка загрузки данных");
-      setLoading(false);
     }
   };
 
@@ -364,48 +360,54 @@ const AdminPage = () => {
       return;
     }
 
-    const selectedLaptop = laptops.find(l => l.id === parseInt(currentOrderItem.laptop_id));
+    const selectedLaptop = laptops.find(
+      (l) => l.id === parseInt(currentOrderItem.laptop_id),
+    );
     if (!selectedLaptop) {
       alert("Товар не найден");
       return;
     }
 
-    const price = currentOrderItem.price > 0 ? currentOrderItem.price : selectedLaptop.price;
-    
+    const price =
+      currentOrderItem.price > 0
+        ? currentOrderItem.price
+        : selectedLaptop.price;
+
     const newItem = {
       laptop_id: currentOrderItem.laptop_id,
       quantity: parseInt(currentOrderItem.quantity),
       price: parseFloat(price),
-      laptop_name: selectedLaptop.model_name
+      laptop_name: selectedLaptop.model_name,
     };
 
     setNewOrder({
       ...newOrder,
       items: [...newOrder.items, newItem],
-      total_amount: newOrder.total_amount + (newItem.price * newItem.quantity)
+      total_amount: newOrder.total_amount + newItem.price * newItem.quantity,
     });
 
     setCurrentOrderItem({
       laptop_id: "",
       quantity: 1,
-      price: 0
+      price: 0,
     });
   };
 
   const removeOrderItem = (index) => {
     const itemToRemove = newOrder.items[index];
     const updatedItems = newOrder.items.filter((_, i) => i !== index);
-    
+
     setNewOrder({
       ...newOrder,
       items: updatedItems,
-      total_amount: newOrder.total_amount - (itemToRemove.price * itemToRemove.quantity)
+      total_amount:
+        newOrder.total_amount - itemToRemove.price * itemToRemove.quantity,
     });
   };
 
   const handleCreateOrder = async (e) => {
     e.preventDefault();
-    
+
     if (!newOrder.user_id) {
       alert("Выберите пользователя");
       return;
@@ -426,13 +428,13 @@ const AdminPage = () => {
         },
         body: JSON.stringify({
           user_id: newOrder.user_id,
-          items: newOrder.items.map(item => ({
+          items: newOrder.items.map((item) => ({
             laptop_id: item.laptop_id,
             quantity: item.quantity,
-            price: item.price
+            price: item.price,
           })),
           total_amount: newOrder.total_amount,
-          status: newOrder.status
+          status: newOrder.status,
         }),
       });
 
@@ -445,7 +447,7 @@ const AdminPage = () => {
           user_id: "",
           total_amount: 0,
           status: "PENDING",
-          items: []
+          items: [],
         });
         alert("Заказ успешно создан");
       } else {
@@ -525,27 +527,6 @@ const AdminPage = () => {
     localStorage.removeItem("user");
     window.close();
   };
-
-  if (loading) {
-    return (
-      <div className="adminLoading">
-        <div className="adminLoadingSpinner"></div>
-        <p className="adminLoadingText">Загрузка...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="adminError">
-        <h2>Ошибка</h2>
-        <p>{error}</p>
-        <button onClick={handleLogout} className="adminBackBtn">
-          Вернуться на главную
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="adminPageContainer">
@@ -1030,32 +1011,39 @@ const AdminPage = () => {
             </div>
 
             {showAddOrderForm && (
-              <form onSubmit={handleCreateOrder} className="adminForm orderForm">
+              <form
+                onSubmit={handleCreateOrder}
+                className="adminForm orderForm"
+              >
                 <h3>Создание нового заказа</h3>
-                
+
                 <div className="formRow">
                   <div className="formGroup">
                     <label>Пользователь:</label>
                     <select
                       value={newOrder.user_id}
-                      onChange={(e) => setNewOrder({...newOrder, user_id: e.target.value})}
+                      onChange={(e) =>
+                        setNewOrder({ ...newOrder, user_id: e.target.value })
+                      }
                       className="adminSelect"
                       required
                     >
                       <option value="">Выберите пользователя</option>
-                      {users.map(user => (
+                      {users.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.name} ({user.email})
                         </option>
                       ))}
                     </select>
                   </div>
-                  
+
                   <div className="formGroup">
                     <label>Статус:</label>
                     <select
                       value={newOrder.status}
-                      onChange={(e) => setNewOrder({...newOrder, status: e.target.value})}
+                      onChange={(e) =>
+                        setNewOrder({ ...newOrder, status: e.target.value })
+                      }
                       className="adminSelect"
                     >
                       <option value="PENDING">В ожидании</option>
@@ -1069,49 +1057,61 @@ const AdminPage = () => {
 
                 <div className="orderItemsSection">
                   <h4>Товары в заказе</h4>
-                  
+
                   <div className="addItemForm">
                     <div className="formRow">
                       <select
                         value={currentOrderItem.laptop_id}
                         onChange={(e) => {
                           const laptopId = e.target.value;
-                          const selectedLaptop = laptops.find(l => l.id === parseInt(laptopId));
+                          const selectedLaptop = laptops.find(
+                            (l) => l.id === parseInt(laptopId),
+                          );
                           setCurrentOrderItem({
                             ...currentOrderItem,
                             laptop_id: laptopId,
-                            price: selectedLaptop ? selectedLaptop.price : 0
+                            price: selectedLaptop ? selectedLaptop.price : 0,
                           });
                         }}
                         className="adminInput"
                       >
                         <option value="">Выберите товар</option>
-                        {laptops.map(laptop => (
+                        {laptops.map((laptop) => (
                           <option key={laptop.id} value={laptop.id}>
                             {laptop.model_name} ({laptop.price} руб.)
                           </option>
                         ))}
                       </select>
-                      
+
                       <input
                         type="number"
                         placeholder="Количество"
                         value={currentOrderItem.quantity}
-                        onChange={(e) => setCurrentOrderItem({...currentOrderItem, quantity: e.target.value})}
+                        onChange={(e) =>
+                          setCurrentOrderItem({
+                            ...currentOrderItem,
+                            quantity: e.target.value,
+                          })
+                        }
                         className="adminInput"
                         min="1"
                       />
-                      
+
                       <input
                         type="number"
                         placeholder="Цена"
                         value={currentOrderItem.price}
-                        onChange={(e) => setCurrentOrderItem({...currentOrderItem, price: e.target.value})}
+                        onChange={(e) =>
+                          setCurrentOrderItem({
+                            ...currentOrderItem,
+                            price: e.target.value,
+                          })
+                        }
                         className="adminInput"
                         min="0"
                         step="0.01"
                       />
-                      
+
                       <button
                         type="button"
                         onClick={handleAddOrderItem}
@@ -1140,7 +1140,10 @@ const AdminPage = () => {
                               <td>{item.laptop_name}</td>
                               <td>{item.quantity}</td>
                               <td>{item.price.toLocaleString()} руб.</td>
-                              <td>{(item.price * item.quantity).toLocaleString()} руб.</td>
+                              <td>
+                                {(item.price * item.quantity).toLocaleString()}{" "}
+                                руб.
+                              </td>
                               <td>
                                 <button
                                   type="button"
@@ -1155,7 +1158,10 @@ const AdminPage = () => {
                         </tbody>
                       </table>
                       <div className="orderTotal">
-                        <strong>Общая сумма: {newOrder.total_amount.toLocaleString()} руб.</strong>
+                        <strong>
+                          Общая сумма: {newOrder.total_amount.toLocaleString()}{" "}
+                          руб.
+                        </strong>
                       </div>
                     </div>
                   ) : (
@@ -1195,7 +1201,9 @@ const AdminPage = () => {
                             </div>
                           </div>
                         </td>
-                        <td>{new Date(order.order_date).toLocaleDateString()}</td>
+                        <td>
+                          {new Date(order.order_date).toLocaleDateString()}
+                        </td>
                         <td>{order.total_amount.toLocaleString()} ₽</td>
                         <td>
                           <select
@@ -1214,11 +1222,13 @@ const AdminPage = () => {
                         </td>
                         <td>
                           {order.orderItems?.length || 0} шт.
-                          <button 
+                          <button
                             onClick={() => toggleOrderDetails(order.id)}
                             className="toggleDetailsBtn"
                           >
-                            {expandedOrderId === order.id ? "Скрыть" : "Показать"}
+                            {expandedOrderId === order.id
+                              ? "Скрыть"
+                              : "Показать"}
                           </button>
                         </td>
                         <td>
@@ -1232,35 +1242,47 @@ const AdminPage = () => {
                           </div>
                         </td>
                       </tr>
-                      {expandedOrderId === order.id && order.orderItems && order.orderItems.length > 0 && (
-                        <tr className="orderDetailsRow">
-                          <td colSpan="7">
-                            <div className="orderDetails">
-                              <h4>Товары в заказе:</h4>
-                              <table className="adminTable small">
-                                <thead>
-                                  <tr>
-                                    <th>Товар</th>
-                                    <th>Количество</th>
-                                    <th>Цена</th>
-                                    <th>Сумма</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {order.orderItems.map((item, index) => (
-                                    <tr key={index}>
-                                      <td>{item.laptop?.model_name || `Товар #${item.laptop_id}`}</td>
-                                      <td>{item.item_quantity}</td>
-                                      <td>{item.price.toLocaleString()} руб.</td>
-                                      <td>{(item.price * item.item_quantity).toLocaleString()} руб.</td>
+                      {expandedOrderId === order.id &&
+                        order.orderItems &&
+                        order.orderItems.length > 0 && (
+                          <tr className="orderDetailsRow">
+                            <td colSpan="7">
+                              <div className="orderDetails">
+                                <h4>Товары в заказе:</h4>
+                                <table className="adminTable small">
+                                  <thead>
+                                    <tr>
+                                      <th>Товар</th>
+                                      <th>Количество</th>
+                                      <th>Цена</th>
+                                      <th>Сумма</th>
                                     </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          </td>
-                        </tr>
-                      )}
+                                  </thead>
+                                  <tbody>
+                                    {order.orderItems.map((item, index) => (
+                                      <tr key={index}>
+                                        <td>
+                                          {item.laptop?.model_name ||
+                                            `Товар #${item.laptop_id}`}
+                                        </td>
+                                        <td>{item.item_quantity}</td>
+                                        <td>
+                                          {item.price.toLocaleString()} руб.
+                                        </td>
+                                        <td>
+                                          {(
+                                            item.price * item.item_quantity
+                                          ).toLocaleString()}{" "}
+                                          руб.
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                     </>
                   ))}
                 </tbody>
