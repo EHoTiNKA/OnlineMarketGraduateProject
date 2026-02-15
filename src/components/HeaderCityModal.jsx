@@ -18,7 +18,7 @@ const HeaderCityModal = ({ isActive, setActive }) => {
           <button
             type="submit"
             className="cityModalSearchLineBtn"
-            tabindex="0"
+            tabIndex="0"
           >
             <svg className="cityModalsearchLineSvg">
               <use xlinkHref="#svg-search"></use>

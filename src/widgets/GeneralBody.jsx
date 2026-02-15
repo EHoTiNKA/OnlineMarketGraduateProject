@@ -278,7 +278,7 @@ const GeneralBody = () => {
       </div>
       <div className="generalBodyFiltersAndProducts">
         <div className="generalBodyFilters">
-          <form action method="get" className="generalBodyCatalogFilterForm">
+          <form action="" method="get" className="generalBodyCatalogFilterForm">
             <div className="generalBodyCatalogFilter">
               <div
                 className="catalogFilterTitle"
