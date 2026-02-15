@@ -1,5 +1,6 @@
 import "./styles/HeaderBottomSection.css";
 import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import catalogSvg from "../assets/CatalogSvg.svg";
 
@@ -26,6 +27,25 @@ const HeaderBottomSection = () => {
 
   const [user, setUser] = useState(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    setSearchQuery(search);
+  }, [searchParams]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) {
+      params.set("search", searchQuery.trim());
+    }
+    navigate(`/?${params.toString()}`);
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -166,8 +186,14 @@ const HeaderBottomSection = () => {
         />
         <p className="headerBottomCatalogText">Каталог</p>
       </div>
-      <div className="headerBottomSearchLine">
-        <input type="text" className="headerBottomInput" />
+      <form className="headerBottomSearchLine" onSubmit={handleSearchSubmit}>
+        <input
+          type="text"
+          className="headerBottomInput"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Поиск ноутбуков..."
+        />
         <button
           type="submit"
           className="headerBottomSearchLineBtn"
@@ -178,7 +204,7 @@ const HeaderBottomSection = () => {
             <use xlinkHref="#svg-search"></use>
           </svg>
         </button>
-      </div>
+      </form>
       <div className="headerBottomGeneralBtns">
         <a href="/catalog/favorites" className="headerBottomFavoriteBtn">
           <svg className="headerBottomSvgHeart">

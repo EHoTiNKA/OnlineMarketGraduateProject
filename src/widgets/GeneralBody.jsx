@@ -1,8 +1,12 @@
 import "./styles/GeneralBody.css";
 import CatalogLaptopItem from "../components/CatalogLaptopItem.jsx";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const GeneralBody = () => {
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search") || ""; // получаем поисковый запрос из URL
+
   const [laptops, setLaptops] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -112,58 +116,66 @@ const GeneralBody = () => {
     });
   };
 
+  // Фильтрация с учётом поискового запроса и всех выбранных фильтров
   const filteredLaptops = useMemo(() => {
-    if (
-      selectedPriceRanges.length === 0 &&
-      selectedManufacturers.length === 0 &&
-      selectedProcessors.length === 0 &&
-      selectedGraphics.length === 0 &&
-      selectedRAMs.length === 0
-    ) {
-      return laptops;
+    let filtered = laptops;
+
+    // Фильтр по поиску (название модели)
+    if (searchTerm) {
+      filtered = filtered.filter((laptop) =>
+        laptop.model_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
-    return laptops.filter((laptop) => {
-      const priceFilterPassed =
-        selectedPriceRanges.length === 0 ||
-        selectedPriceRanges.some((rangeId) => {
+    // Фильтр по цене
+    if (selectedPriceRanges.length > 0) {
+      filtered = filtered.filter((laptop) => {
+        return selectedPriceRanges.some((rangeId) => {
           const range = priceRanges.find((r) => r.id === rangeId);
           const price = laptop.price || 0;
-
           if (range.max === Infinity) {
             return price >= range.min;
           }
           return price >= range.min && price <= range.max;
         });
+      });
+    }
 
-      const manufacturerFilterPassed =
-        selectedManufacturers.length === 0 ||
-        selectedManufacturers.includes(laptop.manufacturer?.name);
-
-      const processorFilterPassed =
-        selectedProcessors.length === 0 ||
-        selectedProcessors.includes(laptop.specs?.processor?.model_name);
-
-      const graphicsFilterPassed =
-        selectedGraphics.length === 0 ||
-        selectedGraphics.includes(laptop.specs?.graphic?.model_name);
-
-      const ramDisplayName = `${laptop.specs?.ram?.size} GB ${
-        laptop.specs?.ram?.type || ""
-      }`.trim();
-      const ramFilterPassed =
-        selectedRAMs.length === 0 || selectedRAMs.includes(ramDisplayName);
-
-      return (
-        priceFilterPassed &&
-        manufacturerFilterPassed &&
-        processorFilterPassed &&
-        graphicsFilterPassed &&
-        ramFilterPassed
+    // Фильтр по производителю
+    if (selectedManufacturers.length > 0) {
+      filtered = filtered.filter((laptop) =>
+        selectedManufacturers.includes(laptop.manufacturer?.name)
       );
-    });
+    }
+
+    // Фильтр по процессору
+    if (selectedProcessors.length > 0) {
+      filtered = filtered.filter((laptop) =>
+        selectedProcessors.includes(laptop.specs?.processor?.model_name)
+      );
+    }
+
+    // Фильтр по видеокарте
+    if (selectedGraphics.length > 0) {
+      filtered = filtered.filter((laptop) =>
+        selectedGraphics.includes(laptop.specs?.graphic?.model_name)
+      );
+    }
+
+    // Фильтр по ОЗУ
+    if (selectedRAMs.length > 0) {
+      filtered = filtered.filter((laptop) => {
+        const ramDisplayName = `${laptop.specs?.ram?.size} GB ${
+          laptop.specs?.ram?.type || ""
+        }`.trim();
+        return selectedRAMs.includes(ramDisplayName);
+      });
+    }
+
+    return filtered;
   }, [
     laptops,
+    searchTerm,
     selectedPriceRanges,
     selectedManufacturers,
     selectedProcessors,
