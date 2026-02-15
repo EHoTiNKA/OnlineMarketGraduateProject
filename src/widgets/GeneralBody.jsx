@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 
 const GeneralBody = () => {
   const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get("search") || ""; // получаем поисковый запрос из URL
+  const searchTerm = searchParams.get("search") || "";
 
   const [laptops, setLaptops] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -56,7 +56,7 @@ const GeneralBody = () => {
   const uniqueRAMs = useMemo(() => {
     const rams = laptops
       .map((laptop) =>
-        `${laptop.specs?.ram?.size} GB ${laptop.specs?.ram?.type || ""}`.trim()
+        `${laptop.specs?.ram?.size} GB ${laptop.specs?.ram?.type || ""}`.trim(),
       )
       .filter((name) => name);
     return [...new Set(rams)].sort((a, b) => {
@@ -116,18 +116,15 @@ const GeneralBody = () => {
     });
   };
 
-  // Фильтрация с учётом поискового запроса и всех выбранных фильтров
   const filteredLaptops = useMemo(() => {
     let filtered = laptops;
 
-    // Фильтр по поиску (название модели)
     if (searchTerm) {
       filtered = filtered.filter((laptop) =>
-        laptop.model_name.toLowerCase().includes(searchTerm.toLowerCase())
+        laptop.model_name.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
-    // Фильтр по цене
     if (selectedPriceRanges.length > 0) {
       filtered = filtered.filter((laptop) => {
         return selectedPriceRanges.some((rangeId) => {
@@ -141,28 +138,24 @@ const GeneralBody = () => {
       });
     }
 
-    // Фильтр по производителю
     if (selectedManufacturers.length > 0) {
       filtered = filtered.filter((laptop) =>
-        selectedManufacturers.includes(laptop.manufacturer?.name)
+        selectedManufacturers.includes(laptop.manufacturer?.name),
       );
     }
 
-    // Фильтр по процессору
     if (selectedProcessors.length > 0) {
       filtered = filtered.filter((laptop) =>
-        selectedProcessors.includes(laptop.specs?.processor?.model_name)
+        selectedProcessors.includes(laptop.specs?.processor?.model_name),
       );
     }
 
-    // Фильтр по видеокарте
     if (selectedGraphics.length > 0) {
       filtered = filtered.filter((laptop) =>
-        selectedGraphics.includes(laptop.specs?.graphic?.model_name)
+        selectedGraphics.includes(laptop.specs?.graphic?.model_name),
       );
     }
 
-    // Фильтр по ОЗУ
     if (selectedRAMs.length > 0) {
       filtered = filtered.filter((laptop) => {
         const ramDisplayName = `${laptop.specs?.ram?.size} GB ${

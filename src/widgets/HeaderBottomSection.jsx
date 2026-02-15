@@ -6,7 +6,7 @@ import catalogSvg from "../assets/CatalogSvg.svg";
 
 const HeaderBottomSection = () => {
   const [headerAuthModalActive, setHeaderAuthModalActive] = useState(false);
-  const [authModalType, setAuthModalType] = useState("login"); // 'login' или 'register'
+  const [authModalType, setAuthModalType] = useState("login");
   const [formInputBtnActive, setFormInputBtnActive] = useState(true);
   const [registerFormInputBtnActive, setRegisterFormInputBtnActive] =
     useState(true);
