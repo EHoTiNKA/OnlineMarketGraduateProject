@@ -206,13 +206,13 @@ const HeaderBottomSection = () => {
         </button>
       </form>
       <div className="headerBottomGeneralBtns">
-        <a href="/catalog/favorites" className="headerBottomFavoriteBtn">
+        <a href="/about-us" className="headerBottomFavoriteBtn">
           <svg className="headerBottomSvgHeart">
             <use xlinkHref="#svg-heart-favorite"></use>
           </svg>
           <p className="headerBottomBtnsText">Избранное</p>
         </a>
-        <a href="/checkout" className="headerBottomCheckOutBtn">
+        <a href="/about-us" className="headerBottomCheckOutBtn">
           <svg className="headerBottomSvgCheckOut">
             <use xlinkHref="#svg-chart-checkOut"></use>
           </svg>
